@@ -1,26 +1,6 @@
 module.exports = {
   prefix: '',
-  important: false,
-  separator: ':',
-  purge: {
-    enabled: true,
-    content: ['./src/**/*.ts', './src/**/*.html'],
-    options: {
-      whitelistPatterns: [
-        /^font/,
-        /^cursor/,
-        /^pl-/,
-        /^px-/,
-        /^pr-/,
-        /^ml-/,
-        /^mx-/,
-        /^mr-/,
-        /^mb-/,
-        /^mt-/,
-        /^ng-/
-      ]
-    }
-  },
+	content: ['./src/**/*.{js,jsx,ts,tsx}', './src/index.html'],
   theme: {
     screens: {
       sm: '640px',
