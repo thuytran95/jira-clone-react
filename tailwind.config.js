@@ -1,6 +1,6 @@
 module.exports = {
   prefix: '',
-	content: ['./src/**/*.{js,jsx,ts,tsx}', './src/index.html'],
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './src/index.html'],
   theme: {
     screens: {
       sm: '640px',
@@ -124,32 +124,34 @@ module.exports = {
       sidebar: '240px',
       navbarLeft: '64px',
       px: '1px',
-      '0': '0',
-      '1': '0.25rem',
+      0: '0',
+      1: '0.25rem',
       '1-25': '0.3125rem',
       '1-5': '0.375rem',
-      '2': '0.5rem',
-      '3': '0.75rem',
-      '4': '1rem',
-      '5': '1.25rem',
-      '6': '1.5rem',
-      '7': '1.75rem',
-      '8': '2rem',
-      '10': '2.5rem',
-      '12': '3rem',
-      '16': '4rem',
-      '20': '5rem',
-      '24': '6rem',
-      '32': '8rem',
-      '40': '10rem',
-      '48': '12rem',
-      '56': '14rem',
-      '64': '16rem',
-      '72': '18rem',
-      '80': '20rem',
-      '88': '22rem'
+      2: '0.5rem',
+      3: '0.75rem',
+      4: '1rem',
+      5: '1.25rem',
+      6: '1.5rem',
+      7: '1.75rem',
+      8: '2rem',
+      10: '2.5rem',
+      12: '3rem',
+      16: '4rem',
+      20: '5rem',
+      24: '6rem',
+      32: '8rem',
+      40: '10rem',
+      48: '12rem',
+      56: '14rem',
+      64: '16rem',
+      72: '18rem',
+      80: '20rem',
+      88: '22rem'
     },
-    backgroundColor: (theme) => theme('colors'),
+    backgroundColor: (theme) => ({
+      ...theme('colors')
+    }),
     backgroundPosition: {
       bottom: 'bottom',
       center: 'center',
@@ -179,10 +181,10 @@ module.exports = {
     },
     borderWidth: {
       default: '1px',
-      '0': '0',
-      '2': '2px',
-      '4': '4px',
-      '8': '8px'
+      0: '0',
+      2: '2px',
+      4: '4px',
+      8: '8px'
     },
     boxShadow: {
       none: 'none',
@@ -203,17 +205,17 @@ module.exports = {
       current: 'currentColor'
     },
     flex: {
-      '1': '1 1 0%',
+      1: '1 1 0%',
       auto: '1 1 auto',
       initial: '0 1 auto',
       none: 'none'
     },
     flexGrow: {
-      '0': '0',
+      0: '0',
       default: '1'
     },
     flexShrink: {
-      '0': '0',
+      0: '0',
       default: '1'
     },
     fontFamily: {
@@ -266,7 +268,7 @@ module.exports = {
       screen: '100vh'
     }),
     inset: {
-      '0': '0',
+      0: '0',
       navbarLeft: '64px',
       sidebar: '230px',
       auto: 'auto'
@@ -317,12 +319,12 @@ module.exports = {
       full: '100%'
     },
     minHeight: {
-      '0': '0',
+      0: '0',
       full: '100%',
       screen: '100vh'
     },
     minWidth: {
-      '0': '0',
+      0: '0',
       full: '100%'
     },
     objectPosition: {
@@ -337,28 +339,28 @@ module.exports = {
       top: 'top'
     },
     opacity: {
-      '0': '0',
-      '25': '0.25',
-      '50': '0.5',
-      '75': '0.75',
-      '100': '1'
+      0: '0',
+      25: '0.25',
+      50: '0.5',
+      75: '0.75',
+      100: '1'
     },
     order: {
       first: '-9999',
       last: '9999',
       none: '0',
-      '1': '1',
-      '2': '2',
-      '3': '3',
-      '4': '4',
-      '5': '5',
-      '6': '6',
-      '7': '7',
-      '8': '8',
-      '9': '9',
-      '10': '10',
-      '11': '11',
-      '12': '12'
+      1: '1',
+      2: '2',
+      3: '3',
+      4: '4',
+      5: '5',
+      6: '6',
+      7: '7',
+      8: '8',
+      9: '9',
+      10: '10',
+      11: '11',
+      12: '12'
     },
     padding: (theme) => theme('spacing'),
     placeholderColor: (theme) => theme('colors'),
@@ -400,12 +402,12 @@ module.exports = {
     }),
     zIndex: {
       auto: 'auto',
-      '0': '0',
-      '10': '10',
-      '20': '20',
-      '30': '30',
-      '40': '40',
-      '50': '50'
+      0: '0',
+      10: '10',
+      20: '20',
+      30: '30',
+      40: '40',
+      50: '50'
     }
   },
   variants: {
