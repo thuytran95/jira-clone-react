@@ -1,0 +1,15 @@
+.sidebar {
+  position: relative;
+  overflow: hidden;
+  // min-width: 240px;
+  &.show {
+    min-width: 240px;
+  }
+
+  &__content {
+    inset: 0;
+    &.show {
+      display: block;
+    }
+  }
+}

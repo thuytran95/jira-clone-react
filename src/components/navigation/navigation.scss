@@ -1,0 +1,22 @@
+.overlay {
+  position: relative;
+  width: 3px;
+  background: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0.2) 0px,
+    rgba(0, 0, 0, 0.2) 1px,
+    rgba(0, 0, 0, 0.1) 1px,
+    rgba(0, 0, 0, 0) 100%
+  );
+
+  .btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    position: absolute;
+    right: -10px;
+    top: 32px;
+    font-size: 14px;
+    box-shadow: #091e4214 0 0 0 1px, #091e4214 0 2px 4px 1px;
+  }
+}
