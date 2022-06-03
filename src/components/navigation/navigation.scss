@@ -1,6 +1,10 @@
+.navigation {
+  flex-shrink: 0;
+}
+
 .overlay {
   position: relative;
-  width: 3px;
+  width: 2px;
   background: linear-gradient(
     to left,
     rgba(0, 0, 0, 0.2) 0px,
@@ -8,6 +12,11 @@
     rgba(0, 0, 0, 0.1) 1px,
     rgba(0, 0, 0, 0) 100%
   );
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #439aff;
+  }
 
   .btn {
     width: 24px;
@@ -18,5 +27,8 @@
     top: 32px;
     font-size: 14px;
     box-shadow: #091e4214 0 0 0 1px, #091e4214 0 2px 4px 1px;
+    &:hover {
+      color: #439aff;
+    }
   }
 }

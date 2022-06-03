@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import './sidebar.scss';
 
-const routes = [
-  { title: 'Kanban Board', icon: <i className="fa fa-columns"></i>, path: '/' },
+export const routes = [
+  { title: 'Kanban Board', icon: <i className="fa fa-columns"></i>, path: '/project/kanban' },
   { title: 'Project Settings', icon: <i className="fa fa-cog"></i>, path: '/project/settings' }
 ];
 
@@ -17,11 +17,11 @@ const Sidebar: FunctionComponent<SidebarProps> = (props) => {
 
   return (
     <div
-      className={classNames('sidebar bg-backgroundLightest px-4', {
+      className={classNames('sidebar bg-backgroundLightest', {
         show: showSidebar
       })}
     >
-      <div className={classNames('sidebar__content', { show: showSidebar })}>
+      <div className='sidebar__content'>
         <div className="flex gap-4 px-1 py-6">
           <span>
             <i className="fab fa-affiliatetheme"></i>
@@ -37,7 +37,7 @@ const Sidebar: FunctionComponent<SidebarProps> = (props) => {
               to={item.path}
               key={item.path}
               className={({ isActive }) =>
-                `flex items-center text-textDarkest py-2 px-3 hover:bg-backgroundLight rounded-lg ${
+                `flex items-center text-textDarkest py-2 px-3 hover:bg-backgroundLight rounded-[0.125rem] ${
                   isActive && 'text-textLink bg-backgroundLight'
                 }`
               }

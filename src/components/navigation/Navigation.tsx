@@ -10,15 +10,13 @@ const Navigation = () => {
     setShowSidebar(!showSidebar);
   };
 
-  console.log(showSidebar);
-
   return (
     <div className="navigation flex">
       <Navbar />
       <Sidebar showSidebar={showSidebar}/>
       <div className="overlay">
         <button className="btn bg-white text-textDarkest" onClick={handleShowSidebar}>
-          <i className="fa fa-angle-left"></i>
+          <i className={`fa fa-angle-${showSidebar ? "left" : "right"}`}></i>
         </button>
       </div>
     </div>

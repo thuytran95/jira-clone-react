@@ -1,15 +1,20 @@
 .sidebar {
   position: relative;
   overflow: hidden;
-  // min-width: 240px;
+  width: 15px;
+  transition: all .3s ease-in-out;
   &.show {
-    min-width: 240px;
+    width: 240px;
+    padding: 0 16px;
   }
 
   &__content {
-    inset: 0;
-    &.show {
-      display: block;
-    }
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-width: 240px;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
