@@ -1,4 +1,5 @@
 import { IssueCard } from 'components';
+import { IssueModal } from 'components/issues';
 import { OverlayTrigger, Tooltip, TooltipProps } from 'react-bootstrap';
 import './kanban.scss';
 
@@ -73,6 +74,7 @@ const Kanban = () => {
           <IssueCard/>
         </div>
       </div>
+      <IssueModal/>
     </div>
   );
 };

@@ -1,0 +1,11 @@
+.issue__modal {
+  &__header {
+  }
+
+  &__btn {
+    @apply text-textMedium bg-white px-3 py-1 hover:bg-backgroundLight;
+    border-radius: 0.125rem;
+    font-size: 14px;
+    transition: all 0.2s ease;
+  }
+}
