@@ -1,0 +1,45 @@
+.issue {
+  &__card {
+    padding: 10px;
+    border-radius: 0.125rem;
+    background: white;
+    margin: 0.25rem 0.5rem;
+    box-shadow: #091e4240 0 1px 2px;
+    transition: all 0.1s ease-out;
+    cursor: pointer;
+    @apply hover:bg-backgroundLight;
+    &__title {
+      @apply pb-3 text-textDarkest text-15;
+    }
+  }
+
+  &__avatar {
+    width: 24px;
+    height: 24px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    border-radius: 50%;
+  }
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 8px;
+
+    &.story-icon {
+      background-color: #63ba3c;
+      color: white;
+      border-radius: 0.125rem;
+    }
+  }
+
+  &__priority {
+    color: red;
+    font-size: 16px;
+  }
+}

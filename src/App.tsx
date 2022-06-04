@@ -11,9 +11,9 @@ function App() {
         element={
           <div className="flex w-100">
             <Navigation />
-            <div className="main grow-default">
+            <div className="main grow-default flex flex-col">
               <Breadcum />
-              <div className="main__content mt-3">
+              <div className="main__content mt-3 grow-default">
                 <Outlet />
               </div>
             </div>

@@ -1,2 +1,2 @@
-export  {Kanban} from './kanban';
-export { Settings} from './settings';
+export { default as Kanban } from './kanban/Kanban';
+export { default as Settings } from './settings/Settings';

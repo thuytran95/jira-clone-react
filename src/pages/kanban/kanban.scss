@@ -1,69 +1,83 @@
 .kanban {
-    .search {
-        width: 160px;
-        height: 32px;
+  @apply flex flex-col;
+  .search {
+    width: 160px;
+    height: 32px;
 
-
-        &__icon {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 16px;
-            height: 16px;
-            font-size: 16px;
-            left: 16px;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            cursor: pointer;
-        }
-
-        &__input {
-            width: 100%;
-            height: 100%;
-            outline: none;
-            border: 1px solid #ddd;
-            color: #172b4d;
-            padding: 0.325rem 0.75rem;
-            padding-left: 32px;
-            border-radius: 3px;
-            &:focus {
-                outline: none;
-                border: 1px solid #4c9aff;
-                box-shadow: 0 0 0 1px #4c9aff;
-            }
-        }
+    &__icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 16px;
+      height: 16px;
+      font-size: 16px;
+      left: 16px;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
     }
 
-    .avatar {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background-size: cover;
-        background-repeat: no-repeat;
-        border: 2px solid white;
-        cursor: pointer;
-        position: relative;
-        transition: all 0.2s ease-out;
-        &:not(:first-of-type){
-            margin-left: -10px;
-        }
-
-        &__username {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            min-width: 100px;
-            color: white;
-            text-align: center;
-            padding: 0.35rem;
-
-            transform: translateX(-50%);
-            background-color: #172b4d ;
-            // display: none;
-        }
-        &:hover {
-            z-index: 1;
-            transform: translateY(-4px);
-        }
+    &__input {
+      width: 100%;
+      height: 100%;
+      outline: none;
+      border: 1px solid #ddd;
+      color: #172b4d;
+      padding: 0.325rem 0.75rem;
+      padding-left: 32px;
+      border-radius: 3px;
+      &:focus {
+        outline: none;
+        border: 1px solid #4c9aff;
+        box-shadow: 0 0 0 1px #4c9aff;
+      }
     }
+  }
+
+  .avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 2px solid white;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease-out;
+    &:not(:first-of-type) {
+      margin-left: -10px;
+    }
+
+    &__username {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      min-width: 100px;
+      color: white;
+      text-align: center;
+      padding: 0.35rem;
+
+      transform: translateX(-50%);
+      background-color: #172b4d;
+    }
+    &:hover {
+      z-index: 1;
+      transform: translateY(-4px);
+    }
+  }
+
+  &__board {
+    @apply grow-default;
+    &__title {
+      @apply px-3 pt-3 pb-4 text-textMedium uppercase text-13;
+    }
+
+    &__item {
+      @apply bg-backgroundLight items-stretch mr-2 shrink-0;
+      min-height: 400px;
+      min-width: 200px;
+      flex-grow: 1;
+      border-radius: 0.125rem;
+    }
+  }
 }

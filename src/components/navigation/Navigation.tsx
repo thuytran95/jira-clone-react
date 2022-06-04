@@ -1,6 +1,5 @@
-import { Navbar } from 'components/navbar';
-import { Sidebar } from 'components/sidebar';
 import { useState } from 'react';
+import { Navbar, Sidebar } from 'components';
 import './navigation.scss';
 
 const Navigation = () => {
@@ -13,10 +12,10 @@ const Navigation = () => {
   return (
     <div className="navigation flex">
       <Navbar />
-      <Sidebar showSidebar={showSidebar}/>
+      <Sidebar showSidebar={showSidebar} />
       <div className="overlay">
         <button className="btn bg-white text-textDarkest" onClick={handleShowSidebar}>
-          <i className={`fa fa-angle-${showSidebar ? "left" : "right"}`}></i>
+          <i className={`fa fa-angle-${showSidebar ? 'left' : 'right'}`}></i>
         </button>
       </div>
     </div>

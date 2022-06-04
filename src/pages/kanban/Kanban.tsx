@@ -1,3 +1,4 @@
+import { IssueCard } from 'components';
 import { OverlayTrigger, Tooltip, TooltipProps } from 'react-bootstrap';
 import './kanban.scss';
 
@@ -9,7 +10,7 @@ const Kanban = () => {
   );
 
   return (
-    <div className="kanban">
+    <div className="kanban h-100">
       <div className="header">
         <h3 className="text-2xl font-medium">Kanban board</h3>
         <div className="flex mt-6 items-center">
@@ -17,7 +18,10 @@ const Kanban = () => {
             <span className="search__icon absolute">
               <i className="fa fa-search"></i>
             </span>
-            <input className="search__input grow-default" type="text" />
+            <input
+              className="search__input grow-default hover:bg-backgroundLight focus:bg-white"
+              type="text"
+            />
           </div>
 
           <div className="avatar-group flex">
@@ -47,6 +51,26 @@ const Kanban = () => {
           <button className="kanban__btn text-textMedium p-2 hover:bg-backgroundLight h-[2rem] leading-none">
             Ignore Resolved
           </button>
+        </div>
+      </div>
+      <div className="kanban__board flex mt-7">
+
+        <div className="kanban__board__item">
+        <h5 className='kanban__board__title'>Back log</h5>
+          <IssueCard/>
+          <IssueCard/>
+        </div>
+        <div className="kanban__board__item">
+        <h5 className='kanban__board__title'>Back log</h5>
+          <IssueCard/>
+        </div>
+        <div className="kanban__board__item">
+        <h5 className='kanban__board__title'>Back log</h5>
+          <IssueCard/>
+        </div>
+        <div className="kanban__board__item">
+        <h5 className='kanban__board__title'>Back log</h5>
+          <IssueCard/>
         </div>
       </div>
     </div>
