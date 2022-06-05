@@ -1,8 +1,87 @@
 @import "~bootstrap/scss/bootstrap";
+@import "~react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 .main {
   padding: 32px 24px 32px 32px;
 }
 
 .tooltip-inner {
   background-color: hsl(0, 8%, 14%);
+}
+
+.btn {
+  display: inline-flex;
+  height: 2rem;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  border-radius: 0.125rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  vertical-align: middle;
+  font-size: 14.5px;
+  line-height: 1;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.1s;
+  &:hover {
+    background-color: #ebecf0;
+  }
+}
+
+.btn-primary {
+  background-color: #f4f5f7;
+  @apply text-textMedium;
+  border: none;
+  &:focus {
+    box-shadow: unset;
+  }
+  &.dropdown-toggle {
+    &:hover {
+      // background-color: #cfd1d4;
+    }
+    &:focus {
+      box-shadow: unset;
+    }
+  }
+}
+
+.btn-check:checked + .btn-primary:focus,
+.btn-check:active + .btn-primary:focus,
+.btn-primary:active:focus,
+.btn-primary.active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+  box-shadow: unset;
+}
+
+.btn-check:checked + .btn-primary,
+.btn-check:active + .btn-primary,
+.btn-primary:active,
+.btn-primary.active,
+.show > .btn-primary.dropdown-toggle {
+  @apply text-textMedium bg-backgroundMedium;
+
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  @apply text-textMedium bg-backgroundMedium;
+}
+
+@media (min-width: 992px) {
+  .modal-lg,
+  .modal-xl {
+    max-width: 70vw;
+  }
+}
+
+.dropdown-toggle {
+  &::after {
+    display: none;
+  }
 }

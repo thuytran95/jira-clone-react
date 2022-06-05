@@ -8,4 +8,12 @@
     font-size: 14px;
     transition: all 0.2s ease;
   }
+
+  &__underline {
+    &:hover {
+      > span {
+        text-decoration: underline;
+      }
+    }
+  }
 }

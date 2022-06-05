@@ -13,7 +13,7 @@ const IssueCard = () => {
       <div className="issue__card__title">Angular sportify</div>
       <div className="flex items-center">
         <div
-          className="issue__avatar"
+          className="issue__avatar issue__avatar--w24"
           style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
         ></div>
         <span className="issue__category uppercase ml-3 text-sm">STORY-2021</span>
@@ -30,7 +30,7 @@ const IssueCard = () => {
           </OverlayTrigger>
         </div>
       </div>
-     
+
     </div>
   );
 };

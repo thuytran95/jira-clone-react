@@ -14,12 +14,20 @@
   }
 
   &__avatar {
-    width: 24px;
-    height: 24px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50% 50%;
     border-radius: 50%;
+  }
+
+  &__avatar--w24 {
+    width: 24px;
+    height: 24px;
+  }
+
+  &__avatar--w20 {
+    width: 24px;
+    height: 24px;
   }
 
   &__icon {
