@@ -17,6 +17,7 @@ const IssueModal = () => {
     blocksFromHTML.entityMap
   );
   const [editorState, setEditorState] = useState(EditorState.createWithContent(state));
+  console.log(project.issues[0])
 
   return (
     <Modal show={true} className="issue__modal" size="lg" dialogClassName="modal-90w">
