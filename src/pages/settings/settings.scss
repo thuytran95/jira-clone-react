@@ -1,0 +1,39 @@
+.settings {
+  &__form {
+    max-width: 640px;
+
+    &__input {
+      padding: 6px 12px;
+      color: #172b4d;
+      border-radius: 3px;
+      font-size: 15px;
+      @apply focus:border-borderInputFocus;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &__textarea {
+      width: 100%;
+      resize: none;
+      outline: none;
+      color: #172b4d;
+      border: 1px solid #dfe1e6;
+      border-radius: 4px;
+      overflow: auto;
+      overflow-y: hidden;
+      line-height: 1.5;
+      height: auto;
+      padding: 8px 12px;
+      @apply hover:bg-backgroundLight focus:bg-white focus:border-borderInputFocus;
+    }
+  }
+
+  .form-select{
+    &:focus {
+        box-shadow: unset;
+        @apply border-borderInputFocus;
+    }
+  }
+}

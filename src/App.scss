@@ -8,6 +8,10 @@
   background-color: hsl(0, 8%, 14%);
 }
 
+body {
+  color: #172b4d;
+}
+
 .btn {
   display: inline-flex;
   height: 2rem;
@@ -71,6 +75,10 @@
 
 .dropdown-item.active, .dropdown-item:active {
   @apply text-textMedium bg-backgroundMedium;
+}
+
+.border-input {
+  border: 1px solid #dfe1e6;
 }
 
 @media (min-width: 992px) {

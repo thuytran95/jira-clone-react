@@ -1,0 +1,32 @@
+.issue__editor {
+  width: 100%;
+  resize: none;
+  outline: none;
+  color: #8993a4;
+  border: 1px solid #dfe1e6;
+  border-radius: 4px;
+  overflow: auto;
+  overflow-y: hidden;
+  line-height: 1.5;
+  height: auto;
+  @apply hover:bg-backgroundLight focus:bg-white focus:border-borderInputFocus;
+}
+
+.editor__wrapper {
+  display: flex;
+  &::after {
+    /* Note the weird space! Needed to preventy jumpy behavior */
+    content: attr(data-replicated-value) ' ';
+    width: 1px;
+    /* This is how textarea text behaves */
+    white-space: pre-wrap;
+
+    /* Hidden from view, clicks, and screen readers */
+    visibility: hidden;
+    border: 1px solid #dfe1e6;
+    border-radius: 4px;
+    color: #8993a4;
+
+  }
+
+}

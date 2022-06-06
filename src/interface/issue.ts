@@ -4,7 +4,7 @@ export enum IssueType {
   BUG = 'Bug'
 }
 
-export enum IssueStatus {
+export enum IssueStatusType {
   BACKLOG = 'Backlog',
   SELECTED = 'Selected',
   IN_PROGRESS = 'InProgress',
@@ -28,8 +28,25 @@ export const IssuePriorityColors: { [priority: string]: string } = {
 };
 
 export const IssueStatusDisplay = {
-  [IssueStatus.BACKLOG]: 'Backlog',
-  [IssueStatus.SELECTED]: 'Selected for Development',
-  [IssueStatus.IN_PROGRESS]: 'In progress',
-  [IssueStatus.DONE]: 'Done'
+  [IssueStatusType.BACKLOG]: 'Backlog',
+  [IssueStatusType.SELECTED]: 'Selected for Development',
+  [IssueStatusType.IN_PROGRESS]: 'In progress',
+  [IssueStatusType.DONE]: 'Done'
 };
+
+export interface Issue {
+  id: string;
+  description: string;
+  priority: IssuePriority;
+  reporterId: string;
+  status: IssueStatusType;
+  title: string;
+  type: IssueType;
+  userIds: string[];
+  listPosition: number;
+}
+
+export interface IssueStatusWithTitle {
+  value: IssueStatusType;
+  title: string;
+}

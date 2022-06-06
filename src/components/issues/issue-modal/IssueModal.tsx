@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { Dropdown, Modal } from 'react-bootstrap';
+import { useState } from 'react';
+import { Modal } from 'react-bootstrap';
 import { ContentState, EditorState, convertFromHTML } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import IssueAssignee from '../issue-assignee/IssueAssignee';
-import './issue-modal.scss';
-
-import project from 'assets/data/project.json';
 import IssueStatus from '../issue-status/IssueStatus';
 import IssueReporter from '../issue-reporter/IssueReporter';
 import IssuePriority from '../issue-priority/IssuePriority';
+import project from 'assets/data/project.json';
+import IssueComment from '../issue-comment/IssueComment';
+import './issue-modal.scss';
 
 const IssueModal = () => {
   const blocksFromHTML = convertFromHTML(project.issues[0].description);
@@ -17,10 +17,10 @@ const IssueModal = () => {
     blocksFromHTML.entityMap
   );
   const [editorState, setEditorState] = useState(EditorState.createWithContent(state));
-  console.log(project.issues[0])
+  const [isShow, setIsShow] = useState<boolean>(false);
 
   return (
-    <Modal show={true} className="issue__modal" size="lg" dialogClassName="modal-90w">
+    <Modal show={isShow} className="issue__modal" size="lg" dialogClassName="modal-90w">
       <Modal.Header className="issue__modal__header">
         <div className="flex items-center">
           <span className="issue__icon story-icon">
@@ -52,15 +52,16 @@ const IssueModal = () => {
               editorClassName="editor-class"
               toolbarClassName="toolbar-class"
             />
+            <IssueComment/>
           </div>
           <div className="md-full lg:w-2/6">
             <IssueStatus />
 
-          <IssueReporter/>
+            <IssueReporter />
             <div className="status">
               <IssueAssignee />
             </div>
-            <IssuePriority/>
+            <IssuePriority />
           </div>
         </div>
       </Modal.Body>

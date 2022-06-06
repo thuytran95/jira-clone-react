@@ -1,5 +1,4 @@
 import { OverlayTrigger, Tooltip, TooltipProps } from 'react-bootstrap';
-import IssueModal from '../issue-modal/IssueModal';
 import './issue-card.scss';
 
 const IssueCard = () => {

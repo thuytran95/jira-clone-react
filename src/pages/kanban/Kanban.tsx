@@ -13,7 +13,7 @@ const Kanban = () => {
   return (
     <div className="kanban h-100">
       <div className="header">
-        <h3 className="text-2xl font-medium">Kanban board</h3>
+        <h3 className="text-2xl font-medium text-textDark">Kanban board</h3>
         <div className="flex mt-6 items-center">
           <div className="search relative mr-4">
             <span className="search__icon absolute">
