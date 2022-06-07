@@ -12,6 +12,13 @@ body {
   color: #172b4d;
 }
 
+input, textarea {
+  outline: none;
+  &:focus {
+    outline: none;
+  }
+}
+
 .btn {
   display: inline-flex;
   height: 2rem;
@@ -70,10 +77,10 @@ body {
 .btn-primary.active,
 .show > .btn-primary.dropdown-toggle {
   @apply text-textMedium bg-backgroundMedium;
-
 }
 
-.dropdown-item.active, .dropdown-item:active {
+.dropdown-item.active,
+.dropdown-item:active {
   @apply text-textMedium bg-backgroundMedium;
 }
 
@@ -81,15 +88,15 @@ body {
   border: 1px solid #dfe1e6;
 }
 
+.dropdown-toggle {
+  &::after {
+    display: none;
+  }
+}
+
 @media (min-width: 992px) {
   .modal-lg,
   .modal-xl {
     max-width: 70vw;
-  }
-}
-
-.dropdown-toggle {
-  &::after {
-    display: none;
   }
 }
