@@ -34,14 +34,20 @@ export const IssueStatusDisplay = {
   [IssueStatusType.DONE]: 'Done'
 };
 
+export const IssuseTypeIcon = {
+  [IssueType.BUG]: "fa fa-dice-one",
+  [IssueType.STORY]: "fa fa-bookmark",
+  [IssueType.TASK]: "fa fa-check-square"
+}
+
 export interface Issue {
   id: string;
   description: string;
-  priority: IssuePriority;
+  priority:IssuePriority[keyof IssuePriority];
   reporterId: string;
-  status: IssueStatusType;
+  status: IssueStatusType[keyof IssueStatusType];
   title: string;
-  type: IssueType;
+  type: IssueType[keyof IssueType];
   userIds: string[];
   listPosition: number;
 }
@@ -49,4 +55,9 @@ export interface Issue {
 export interface IssueStatusWithTitle {
   value: IssueStatusType;
   title: string;
+}
+
+export interface IssueTypeWitfhIcon {
+  value: IssueType;
+  icon: string;
 }

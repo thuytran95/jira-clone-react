@@ -7,6 +7,7 @@ const IssueCard = () => {
       Thuy Tran
     </Tooltip>
   );
+
   return (
     <div className="issue__card">
       <div className="issue__card__title">Angular sportify</div>
