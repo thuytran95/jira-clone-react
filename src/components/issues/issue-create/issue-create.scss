@@ -1,0 +1,33 @@
+.issue__create {
+  .btn-primary {
+    @apply focus:text-textMedium hover:text-textMedium;
+    border: 1px solid #40a9ff;
+    &:hover,
+    &:focus {
+      border: 1px solid #40a9ff;
+      background-color: white;
+    }
+  }
+  .show > .btn-primary.dropdown-toggle {
+    border-color: #40a9ff;
+  }
+
+  .dropdown-menu {
+    width: 100%;
+  }
+
+  .dropdown-toggle {
+    &::after {
+      display: inline-block;
+      position: absolute;
+      right: 10px;
+    }
+  }
+
+  .dropdown-item {
+    @apply hover:bg-backgroundMedium;
+    &.active {
+      background-color: #e6f7ff;
+    }
+  }
+}

@@ -19,6 +19,18 @@ export enum IssuePriority {
   HIGHEST = 'Highest'
 }
 
+export const IssueTypeClassIcon = {
+  [IssueType.BUG]: 'fa fa-dice-one',
+  [IssueType.STORY]: 'fa fa-bookmark',
+  [IssueType.TASK]: 'fa fa-check-square'
+};
+
+export const IssueTypeColors = {
+  [IssueType.BUG]: '#E9494A',
+  [IssueType.STORY]: '#57A55A',
+  [IssueType.TASK]: '#4bade8'
+};
+
 export const IssuePriorityColors: { [priority: string]: string } = {
   [IssuePriority.HIGHEST]: '#CD1317',
   [IssuePriority.HIGH]: '#E9494A',
@@ -35,15 +47,15 @@ export const IssueStatusDisplay = {
 };
 
 export const IssuseTypeIcon = {
-  [IssueType.BUG]: "fa fa-dice-one",
-  [IssueType.STORY]: "fa fa-bookmark",
-  [IssueType.TASK]: "fa fa-check-square"
-}
+  [IssueType.BUG]: 'fa fa-dice-one',
+  [IssueType.STORY]: 'fa fa-bookmark',
+  [IssueType.TASK]: 'fa fa-check-square'
+};
 
 export interface Issue {
   id: string;
   description: string;
-  priority:IssuePriority[keyof IssuePriority];
+  priority: IssuePriority[keyof IssuePriority];
   reporterId: string;
   status: IssueStatusType[keyof IssueStatusType];
   title: string;

@@ -1,13 +1,13 @@
-import { IssueTypeWitfhIcon } from './../interface/issue';
 import {
   IssuePriority,
   IssuePriorityColors,
   IssueStatusDisplay,
   IssueStatusWithTitle,
-  IssueType,
-  IssuseTypeIcon
+  IssueType
 } from 'interface/issue';
 import { IssuePriorityIcon } from 'interface/issue-priority-icon';
+import { IssueTypeClassIcon } from './../interface/issue';
+import { IssueTypeIcon } from './../interface/issue-type-icon';
 export const PROJECT_ISSUE_PRIORITIES = Object.keys(IssuePriorityColors).map((priority) => {
   const priorityType = priority as IssuePriority;
   return new IssuePriorityIcon(priorityType);
@@ -21,12 +21,7 @@ export const ISSUE_STATUS = Object.keys(IssueStatusDisplay).map((status) => {
   } as IssueStatusWithTitle;
 });
 
-export const ISSUE_TYPES = Object.keys(IssuseTypeIcon).map((type) => {
-  const currentType = type as keyof typeof IssuseTypeIcon;
-  const typeWithIcon = {
-    value: type,
-    icon: IssuseTypeIcon[currentType]
-  } as IssueTypeWitfhIcon;
-
-  return typeWithIcon;
+export const ISSUE_TYPES = Object.keys(IssueTypeClassIcon).map((type) => {
+  const typeValue = type as IssueType;
+  return new IssueTypeIcon(typeValue);
 });
