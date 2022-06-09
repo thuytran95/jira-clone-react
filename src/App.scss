@@ -12,7 +12,8 @@ body {
   color: #172b4d;
 }
 
-input, textarea {
+input,
+textarea {
   outline: none;
   &:focus {
     outline: none;
@@ -91,6 +92,13 @@ input, textarea {
 .dropdown-toggle {
   &::after {
     display: none;
+  }
+}
+
+.react-select__option {
+  @apply flex items-center py-2 px-3 cursor-pointer hover:bg-backgroundMedium;
+  &:hover{
+
   }
 }
 
