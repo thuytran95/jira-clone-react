@@ -115,7 +115,7 @@ module.exports = {
       backgroundLightest: '#F4F5F7',
       backgroundLightPrimary: '#D2E5FE',
       backgroundLightSuccess: '#E4FCEF',
-
+      backgroundTooltip: "#454549",
       borderLightest: '#dfe1e6',
       borderLight: '#C1C7D0',
       borderInputFocus: '#4c9aff'

@@ -43,6 +43,25 @@
     justify-content: center;
     align-items: center;
     margin-right: 8px;
+    position: relative;
+
+    &::before {
+      position: absolute;
+      content: "";
+      width: 0;
+      height: 0;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-bottom-color: red;
+    }
+
+    &::after {
+      position: absolute;
+      content: attr(data-content);
+      
+    }
 
     &.story-icon {
       background-color: #63ba3c;

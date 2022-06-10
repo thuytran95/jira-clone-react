@@ -7,7 +7,7 @@ const avatarSource =
 
 const Navbar = () => {
   const [showSearch, setShowSearch] = useState<boolean>(false);
-  const [showCreate, setShowCreate] = useState<boolean>(true);
+  const [showCreate, setShowCreate] = useState<boolean>(false);
 
   const renderTooltip = (props: TooltipProps, text: string) => (
     <Tooltip id="button-tooltip" {...props}>
@@ -39,7 +39,10 @@ const Navbar = () => {
         </OverlayTrigger>
 
         <OverlayTrigger placement="right" overlay={(props) => renderTooltip(props, 'Add issue')}>
-          <button className="hover:bg-[#1c63ce] rounded-full p-2 w-10 h-10" onClick={handleToggleCreateModal}>
+          <button
+            className="hover:bg-[#1c63ce] rounded-full p-2 w-10 h-10"
+            onClick={handleToggleCreateModal}
+          >
             <i className="fa fa-plus"></i>
           </button>
         </OverlayTrigger>
@@ -50,7 +53,7 @@ const Navbar = () => {
         </div>
       </div>
       <IssueSearch show={showSearch} handleToggleModal={handleToggleSearchModal} />
-      <IssueCreate show={showCreate} handleToggleModal={handleToggleCreateModal}/>
+      <IssueCreate show={showCreate} handleToggleModal={handleToggleCreateModal} />
     </div>
   );
 };

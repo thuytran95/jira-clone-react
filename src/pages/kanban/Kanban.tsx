@@ -48,24 +48,21 @@ const Kanban = () => {
           </div>
 
           <div className="avatar-group flex">
-            <OverlayTrigger placement="bottom" overlay={renderTooltip}>
-              <div
-                className="avatar"
-                style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
-              ></div>
-            </OverlayTrigger>
-            <OverlayTrigger placement="bottom" overlay={renderTooltip}>
-              <div
-                className="avatar"
-                style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
-              ></div>
-            </OverlayTrigger>
-            <OverlayTrigger placement="bottom" overlay={renderTooltip}>
-              <div
-                className="avatar"
-                style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
-              ></div>
-            </OverlayTrigger>
+            <div
+              className="avatar"
+              data-username={'Thuy Tran'}
+              style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
+            ></div>
+            <div
+              className="avatar"
+              data-username={'Thuy Tran'}
+              style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
+            ></div>
+            <div
+              className="avatar"
+              data-username={'Thuy Tran'}
+              style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
+            ></div>
           </div>
 
           <button className="kanban__btn text-textMedium p-2 hover:bg-backgroundLight rounded-sm mx-4 h-[2rem] leading-none">

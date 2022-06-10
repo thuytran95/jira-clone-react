@@ -2,6 +2,7 @@
   .btn-primary {
     @apply focus:text-textMedium hover:text-textMedium;
     border: 1px solid #40a9ff;
+    height: 42px;
     &:hover,
     &:focus {
       border: 1px solid #40a9ff;

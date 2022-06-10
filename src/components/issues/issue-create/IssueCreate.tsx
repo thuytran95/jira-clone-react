@@ -1,21 +1,18 @@
+import project from 'assets/data/project.json';
 import classNames from 'classnames';
 import { EditorState } from 'draft-js';
-import Select, {
-  ControlProps,
-  MultiValueGenericProps,
-  MultiValueRemoveProps,
-  OptionProps
-} from 'react-select';
-import { IssuePriority, IssueType } from 'interface/issue';
+import { IssuePriority,IssueType } from 'interface/issue';
 import { IssuePriorityIcon } from 'interface/issue-priority-icon';
 import { IssueTypeIcon } from 'interface/issue-type-icon';
-import React, { useState } from 'react';
-import { Dropdown, Form, Modal } from 'react-bootstrap';
-import { Editor } from 'react-draft-wysiwyg';
-import { ISSUE_TYPES, PROJECT_ISSUE_PRIORITIES } from 'utils/constants';
-import project from 'assets/data/project.json';
-import './issue-create.scss';
 import { User } from 'interface/user';
+import React,{ useState } from 'react';
+import { Dropdown,Form,Modal } from 'react-bootstrap';
+import { Editor } from 'react-draft-wysiwyg';
+import Select,{
+  MultiValueGenericProps
+} from 'react-select';
+import { ISSUE_TYPES,PROJECT_ISSUE_PRIORITIES } from 'utils/constants';
+import './issue-create.scss';
 
 interface IssueCreateProps {
   show: boolean;
@@ -28,7 +25,7 @@ interface AssgineeOption extends User {
 
 const MultiValueLabel = (props: MultiValueGenericProps<AssgineeOption>) => {
   return (
-    <div className="flex px-2 py-2">
+    <div className="flex px-1 py-1">
       <span
         className="issue__avatar issue__avatar--w20 mr-2 shrink-0"
         style={{ backgroundImage: `url("${props.data.avatarUrl}")` }}
@@ -36,10 +33,6 @@ const MultiValueLabel = (props: MultiValueGenericProps<AssgineeOption>) => {
       <span className="text-textMedium text-sm">{props.data.name}</span>
     </div>
   );
-};
-
-const MultiValueRemove = (props: MultiValueRemoveProps<AssgineeOption>) => {
-  return <button className="px-2 hover:bg-backgroundLight py-1 ">x</button>;
 };
 
 const initIssueType = new IssueTypeIcon(IssueType.TASK);
@@ -64,7 +57,7 @@ const IssueCreate = ({ show, handleToggleModal }: IssueCreateProps) => {
 
   const projectUsers = project.users.map((user) => ({ ...user, label: user.name }));
   return (
-    <Modal className="issue__create" show={show} onHide={handleToggleModal} size="lg">
+    <Modal className="issue__create__modal" show={show} onHide={handleToggleModal} size="lg">
       <Modal.Body className="py-5 px-8">
         <h5 className="text-xl">Create issue</h5>
         <Form>
@@ -161,7 +154,7 @@ const IssueCreate = ({ show, handleToggleModal }: IssueCreateProps) => {
             />
           </div>
 
-          <div className="settings__form__group flex flex-col mt-3">
+          <div className="settings__form__grsoup flex flex-col mt-3">
             <label htmlFor="description" className="mb-2">
               Reporter
             </label>
@@ -214,8 +207,31 @@ const IssueCreate = ({ show, handleToggleModal }: IssueCreateProps) => {
               options={projectUsers}
               defaultValue={projectUsers[0]}
               isMulti
+              styles={{
+                multiValueRemove: (styles) => {
+                  return {
+                    ...styles,
+                    ':hover': {
+                      backgroundColor: 'inherite'
+                    }
+                  };
+                },
+                control: (styles) => ({
+                  ...styles,
+                  boxShadow: 'unset',
+                  backgroundColor: 'transparent'
+                })
+              }}
+              theme={(theme) => ({
+                ...theme,
+                borderRadius: 0,
+                colors: {
+                  ...theme.colors,
+                  primary: '#40a9ff'
+                }
+              })}
               components={{
-                Option: ({ children, ...props }) => {
+                Option: ({ ...props }) => {
                   return (
                     <div className=" react-select__option">
                       <span
@@ -226,50 +242,9 @@ const IssueCreate = ({ show, handleToggleModal }: IssueCreateProps) => {
                     </div>
                   );
                 },
-                MultiValueLabel,
-                MultiValueRemove
+                MultiValueLabel
               }}
             ></Select>
-            {/* <Dropdown>
-              <Dropdown.Toggle className="w-100 justify-start">
-                <span className="flex items-center">
-                  <span
-                    className="issue__avatar issue__avatar--w20 mr-2"
-                    style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
-                  ></span>
-                  <span className="text-textMedium text-sm">Thuy Tran</span>
-                </span>
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">
-                  <span className="flex items-center">
-                    <span
-                      className="issue__avatar issue__avatar--w20 mr-2"
-                      style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
-                    ></span>
-                    <span className="text-textMedium text-sm">Thuy Tran</span>
-                  </span>
-                </Dropdown.Item>
-                <Dropdown.Item href="#/action-2">
-                  <span className="flex items-center">
-                    <span
-                      className="issue__avatar issue__avatar--w20 mr-2"
-                      style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
-                    ></span>
-                    <span className="text-textMedium text-sm">Thuy Tran</span>
-                  </span>
-                </Dropdown.Item>
-                <Dropdown.Item href="#/action-3">
-                  <span className="flex items-center">
-                    <span
-                      className="issue__avatar issue__avatar--w20 mr-2"
-                      style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
-                    ></span>
-                    <span className="text-textMedium text-sm">Thuy Tran</span>
-                  </span>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown> */}
           </div>
           <div className="create__issue__btns mt-3 text-right">
             <button

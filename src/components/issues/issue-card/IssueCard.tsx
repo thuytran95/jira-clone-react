@@ -18,11 +18,10 @@ const IssueCard = () => {
         ></div>
         <span className="issue__category uppercase ml-3 text-sm">STORY-2021</span>
         <div className="flex items-center ml-auto">
-          <OverlayTrigger placement="bottom" overlay={renderTooltip}>
-            <span className="issue__icon story-icon">
-              <i className="fa fa-bookmark"></i>
-            </span>
-          </OverlayTrigger>
+          <span className="issue__icon story-icon" data-content="Story">
+            <i className="fa fa-bookmark"></i>
+          </span>
+
           <OverlayTrigger placement="bottom" overlay={renderTooltip}>
             <span className="issue__priority">
               <i className="fa fa-arrow-up"></i>
@@ -30,7 +29,6 @@ const IssueCard = () => {
           </OverlayTrigger>
         </div>
       </div>
-
     </div>
   );
 };
