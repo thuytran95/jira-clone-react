@@ -42,38 +42,9 @@
     background-repeat: no-repeat;
     border: 2px solid white;
     cursor: pointer;
-    position: relative;
-    transition: all 0.2s ease-out;
-    &::after {
-      position: absolute;
-      content: attr(data-username);
-      min-width: 80px;
-      padding: 4px;
-      opacity: 0;
-      top: calc(100% + 16px);
-      left: 50%;
-      border-radius: 4px;
-      font-size: 14px;
-      transform: translateX(-50%);
-      transition: all .3s ease;
-      color: white;
-      text-align: center;
-      @apply bg-backgroundTooltip;
-    }
 
-    &::before {
-      position: absolute;
-      content: "";
-      opacity: 0;
-      pointer-events: none;
-      left: 50%;
-      bottom: -16px;
-      width: 0;
-      height: 0;
-      transform: translate3d(-50%,0%,0);
-      transition: all .3s ease;
-      border: 6px solid transparent;
-      border-bottom-color: #454549;
+    &::after {
+      min-width: 80px;
     }
 
     &:not(:first-of-type) {
@@ -94,14 +65,6 @@
     &:hover {
       z-index: 1;
       transform: translateY(-4px);
-      &::after {
-        opacity: 1;
-
-      }
-
-      &::before {
-        opacity: 1;
-      }
     }
   }
 

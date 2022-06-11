@@ -2,17 +2,12 @@ import { IssueCard } from 'components';
 import { IssueModal } from 'components/issues';
 import { Issue } from 'interface/issue';
 import { useState } from 'react';
-import { OverlayTrigger, Tooltip, TooltipProps } from 'react-bootstrap';
+import { useDrop } from 'react-dnd';
 import './kanban.scss';
+
 
 const Kanban = () => {
   const [showIssue, setShowIssue] = useState<Issue | null>(null);
-
-  const renderTooltip = (props: TooltipProps) => (
-    <Tooltip id="button-tooltip" {...props}>
-      Thuy Tran
-    </Tooltip>
-  );
 
   const handleShowIssue = () => {
     const issue = {
@@ -32,6 +27,14 @@ const Kanban = () => {
     setShowIssue(issue);
   };
 
+  const [{ canDrop, isOver }, drop] = useDrop(() => ({
+    accept: 'issue',
+    drop: () => ({ name: 'kanban-board' }),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop()
+    })
+  }));
   return (
     <div className="kanban h-100">
       <div className="header">
@@ -49,18 +52,18 @@ const Kanban = () => {
 
           <div className="avatar-group flex">
             <div
-              className="avatar"
-              data-username={'Thuy Tran'}
+              className="avatar base-tooltip"
+              data-content={'Thuy Tran'}
               style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
             ></div>
             <div
-              className="avatar"
-              data-username={'Thuy Tran'}
+              className="avatar base-tooltip"
+              data-content={'Thuy Tran'}
               style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
             ></div>
             <div
-              className="avatar"
-              data-username={'Thuy Tran'}
+              className="avatar base-tooltip"
+              data-content={'Thuy Tran'}
               style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
             ></div>
           </div>
@@ -73,25 +76,28 @@ const Kanban = () => {
           </button>
         </div>
       </div>
+
       <div className="kanban__board flex mt-7">
-        <div className="kanban__board__item">
-          <h5 className="kanban__board__title">Back log</h5>
-          <IssueCard />
-          <IssueCard />
+          <div className="kanban__board__item" ref={drop}>
+            <h5 className="kanban__board__title">Back log</h5>
+            <IssueCard />
+            <IssueCard />
+          </div>
+          <div className="kanban__board__item">
+            <h5 className="kanban__board__title">Back log</h5>
+            <IssueCard />
+          </div>
+          <div className="kanban__board__item">
+            <h5 className="kanban__board__title">Back log</h5>
+            <IssueCard />
+          </div>
+          <div className="kanban__board__item">
+            <h5 className="kanban__board__title">Back log</h5>
+            <IssueCard />
+          </div>
         </div>
-        <div className="kanban__board__item">
-          <h5 className="kanban__board__title">Back log</h5>
-          <IssueCard />
-        </div>
-        <div className="kanban__board__item">
-          <h5 className="kanban__board__title">Back log</h5>
-          <IssueCard />
-        </div>
-        <div className="kanban__board__item">
-          <h5 className="kanban__board__title">Back log</h5>
-          <IssueCard />
-        </div>
-      </div>
+
+
       <IssueModal />
     </div>
   );

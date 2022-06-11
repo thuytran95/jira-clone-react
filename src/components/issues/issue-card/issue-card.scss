@@ -43,24 +43,8 @@
     justify-content: center;
     align-items: center;
     margin-right: 8px;
-    position: relative;
-
-    &::before {
-      position: absolute;
-      content: "";
-      width: 0;
-      height: 0;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      border: 6px solid transparent;
-      border-bottom-color: red;
-    }
-
     &::after {
-      position: absolute;
-      content: attr(data-content);
-      
+      min-width: 60px;
     }
 
     &.story-icon {
@@ -73,5 +57,8 @@
   &__priority {
     color: red;
     font-size: 16px;
+    &::after {
+      min-width: 60px;
+    }
   }
 }

@@ -21,7 +21,7 @@ const Sidebar: FunctionComponent<SidebarProps> = (props) => {
         show: showSidebar
       })}
     >
-      <div className='sidebar__content'>
+      <div className="sidebar__content">
         <div className="flex gap-4 px-1 py-6">
           <span>
             <i className="fab fa-affiliatetheme"></i>
@@ -37,7 +37,7 @@ const Sidebar: FunctionComponent<SidebarProps> = (props) => {
               to={item.path}
               key={item.path}
               className={({ isActive }) =>
-                `flex items-center text-textDarkest py-2 px-3 hover:bg-backgroundLight rounded-[0.125rem] ${
+                `flex items-center hover:no-underline text-textDarkest py-2 px-3 hover:bg-backgroundLight rounded-[0.125rem] ${
                   isActive && 'text-textLink bg-backgroundLight'
                 }`
               }

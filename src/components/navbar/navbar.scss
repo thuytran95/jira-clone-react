@@ -1,0 +1,21 @@
+.navbar {
+  &__btn {
+    &::after,
+    &::before {
+      z-index: 10;
+    }
+    &::before {
+      transform: rotate(-90deg) translate(0, -50%) !important;
+      top: 35% !important;
+      bottom: 0 !important;
+      left: calc(100% + 2px) !important;
+      border-width: 8px !important;
+    }
+    &::after {
+      top: 50% !important;
+      transform: translate(0, -50%) !important;
+      left: calc(100% + 10px) !important;
+      min-width: 100px;
+    }
+  }
+}

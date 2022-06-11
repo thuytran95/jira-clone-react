@@ -55,9 +55,6 @@ textarea {
     box-shadow: unset;
   }
   &.dropdown-toggle {
-    &:hover {
-      // background-color: #cfd1d4;
-    }
     &:focus {
       box-shadow: unset;
     }
@@ -97,8 +94,49 @@ textarea {
 
 .react-select__option {
   @apply flex items-center py-2 px-3 cursor-pointer hover:bg-backgroundMedium;
-  &:hover{
+}
 
+.base-tooltip {
+  position: relative;
+  transition: all 0.2s ease-out;
+
+  &::before,
+  &::after {
+    position: absolute;
+    pointer-events: none;
+    left: 50%;
+    transform: translate3d(-50%, 0%, 0);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 10;
+    display: none;
+  }
+
+  &::before {
+    content: "";
+    bottom: -10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    @apply border-b-backgroundTooltip;
+  }
+  &::after {
+    content: attr(data-content);
+    top: calc(100% + 10px);
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: white;
+    text-align: center;
+    @apply bg-backgroundTooltip;
+  }
+
+  &:hover {
+    &::after,
+    &::before {
+      opacity: 1;
+      display: block;
+    }
   }
 }
 
@@ -108,4 +146,3 @@ textarea {
     max-width: 70vw;
   }
 }
-
