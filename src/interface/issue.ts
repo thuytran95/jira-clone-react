@@ -73,3 +73,7 @@ export interface IssueTypeWitfhIcon {
   value: IssueType;
   icon: string;
 }
+
+export const IssueDropTypes = {
+  ISSUE: "issue"
+}

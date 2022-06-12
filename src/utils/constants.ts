@@ -25,3 +25,5 @@ export const ISSUE_TYPES = Object.keys(IssueTypeClassIcon).map((type) => {
   const typeValue = type as IssueType;
   return new IssueTypeIcon(typeValue);
 });
+
+

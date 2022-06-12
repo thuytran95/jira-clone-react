@@ -1,8 +1,6 @@
-import { Breadcum, Navigation } from 'components';
-import { Kanban, Settings } from 'pages';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Breadcum,Navigation } from 'components';
+import { Kanban,Settings } from 'pages';
+import { Outlet,Route,Routes } from 'react-router-dom';
 import './App.scss';
 
 function App() {
@@ -22,22 +20,8 @@ function App() {
           </div>
         }
       >
-        <Route
-          index
-          element={
-            <DndProvider backend={HTML5Backend}>
-              <Kanban />
-            </DndProvider>
-          }
-        ></Route>
-        <Route
-          path="/project/kanban"
-          element={
-            <DndProvider backend={HTML5Backend}>
-              <Kanban />
-            </DndProvider>
-          }
-        ></Route>
+        <Route index element={<Kanban />}></Route>
+        <Route path="/project/kanban" element={<Kanban />}></Route>
         <Route path="/project/settings" element={<Settings />}></Route>
       </Route>
     </Routes>

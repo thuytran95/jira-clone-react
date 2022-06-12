@@ -13,3 +13,4 @@ export class IssuePriorityIcon {
         this.color = IssuePriorityColors[issuePriority];
     }
 }
+

@@ -2,7 +2,8 @@ import { IssueModal } from 'components/issues';
 import KanbanBoad from 'components/kanban-board/KanbanBoad';
 import { Issue,IssueStatusType } from 'interface/issue';
 import { useEffect,useState } from 'react';
-import { useDrop } from 'react-dnd';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { getIssues } from 'redux-utils/issue/issueSlice';
 import { useAppDispatch,useAppSelector } from 'store';
 import './kanban.scss';
@@ -33,18 +34,10 @@ const Kanban = () => {
     setShowIssue(issue);
   };
 
-  const [{ canDrop, isOver }, drop] = useDrop(() => ({
-    accept: 'issue',
-    drop: () => ({ name: 'kanban-board' }),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop()
-    })
-  }));
-
   useEffect(() => {
     dispatch(getIssues(project));
   }, []);
+
 
   return (
     <div className="kanban h-100">
@@ -62,21 +55,14 @@ const Kanban = () => {
           </div>
 
           <div className="avatar-group flex">
-            <div
-              className="avatar base-tooltip"
-              data-content={'Thuy Tran'}
-              style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
-            ></div>
-            <div
-              className="avatar base-tooltip"
-              data-content={'Thuy Tran'}
-              style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
-            ></div>
-            <div
-              className="avatar base-tooltip"
-              data-content={'Thuy Tran'}
-              style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
-            ></div>
+            {project.users.map((user) => (
+              <div
+                key={user.id}
+                className="avatar base-tooltip"
+                data-content={user.name}
+                style={{ backgroundImage: `url(${user.avatarUrl})` }}
+              ></div>
+            ))}
           </div>
 
           <button className="kanban__btn text-textMedium p-2 hover:bg-backgroundLight rounded-sm mx-4 h-[2rem] leading-none">
@@ -89,10 +75,12 @@ const Kanban = () => {
       </div>
 
       <div className="kanban__board flex mt-7">
-        <KanbanBoad status={IssueStatusType.BACKLOG} issues={backlogIssues} />
-        <KanbanBoad status={IssueStatusType.SELECTED} issues={selectedIssues} />
-        <KanbanBoad status={IssueStatusType.IN_PROGRESS} issues={inProgressIssues} />
-        <KanbanBoad status={IssueStatusType.DONE} issues={doneIssues} />
+        <DndProvider backend={HTML5Backend}>
+          <KanbanBoad status={IssueStatusType.BACKLOG} issues={backlogIssues} />
+          <KanbanBoad status={IssueStatusType.SELECTED} issues={selectedIssues} />
+          <KanbanBoad status={IssueStatusType.IN_PROGRESS} issues={inProgressIssues} />
+          <KanbanBoad status={IssueStatusType.DONE} issues={doneIssues} />
+        </DndProvider>
       </div>
 
       <IssueModal />
