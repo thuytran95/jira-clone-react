@@ -16,7 +16,7 @@ interface IssueCardProps {
 const IssueCard = ({ issue }: IssueCardProps) => {
   const { project } = useAppSelector((state) => state.project);
   const [members, setMembers] = useState<User[]>([]);
-  const [drag] = useDrag(() => ({
+  const [{ isDragging }, drag] = useDrag(() => ({
     type: 'issue',
     item: { name },
     end: (item, monitor) => {
