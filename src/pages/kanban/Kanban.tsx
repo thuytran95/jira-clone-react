@@ -1,13 +1,19 @@
-import { IssueCard } from 'components';
 import { IssueModal } from 'components/issues';
-import { Issue } from 'interface/issue';
-import { useState } from 'react';
+import KanbanBoad from 'components/kanban-board/KanbanBoad';
+import { Issue,IssueStatusType } from 'interface/issue';
+import { useEffect,useState } from 'react';
 import { useDrop } from 'react-dnd';
+import { getIssues } from 'redux-utils/issue/issueSlice';
+import { useAppDispatch,useAppSelector } from 'store';
 import './kanban.scss';
-
 
 const Kanban = () => {
   const [showIssue, setShowIssue] = useState<Issue | null>(null);
+  const { project } = useAppSelector((state) => state.project);
+  const { doneIssues, selectedIssues, inProgressIssues, backlogIssues } = useAppSelector(
+    (state) => state.issue
+  );
+  const dispatch = useAppDispatch();
 
   const handleShowIssue = () => {
     const issue = {
@@ -35,6 +41,11 @@ const Kanban = () => {
       canDrop: monitor.canDrop()
     })
   }));
+
+  useEffect(() => {
+    dispatch(getIssues(project));
+  }, []);
+
   return (
     <div className="kanban h-100">
       <div className="header">
@@ -78,25 +89,11 @@ const Kanban = () => {
       </div>
 
       <div className="kanban__board flex mt-7">
-          <div className="kanban__board__item" ref={drop}>
-            <h5 className="kanban__board__title">Back log</h5>
-            <IssueCard />
-            <IssueCard />
-          </div>
-          <div className="kanban__board__item">
-            <h5 className="kanban__board__title">Back log</h5>
-            <IssueCard />
-          </div>
-          <div className="kanban__board__item">
-            <h5 className="kanban__board__title">Back log</h5>
-            <IssueCard />
-          </div>
-          <div className="kanban__board__item">
-            <h5 className="kanban__board__title">Back log</h5>
-            <IssueCard />
-          </div>
-        </div>
-
+        <KanbanBoad status={IssueStatusType.BACKLOG} issues={backlogIssues} />
+        <KanbanBoad status={IssueStatusType.SELECTED} issues={selectedIssues} />
+        <KanbanBoad status={IssueStatusType.IN_PROGRESS} issues={inProgressIssues} />
+        <KanbanBoad status={IssueStatusType.DONE} issues={doneIssues} />
+      </div>
 
       <IssueModal />
     </div>

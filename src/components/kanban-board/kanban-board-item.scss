@@ -1,0 +1,12 @@
+.kanban__board {
+  &__item {
+    @apply bg-backgroundLight items-stretch shrink-0;
+    min-height: 400px;
+    min-width: 200px;
+    flex-grow: 1;
+    margin-right: 8px;
+    width: calc(100% / 4 - 4 * 8px);
+    border-radius: 0.125rem;
+    padding-bottom: 30px;
+  }
+}

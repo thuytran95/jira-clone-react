@@ -1,7 +1,8 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 .main {
-  padding: 32px 24px 32px 32px;
+  padding: 32px 24px 0 32px;
+  overflow-y: auto;
 }
 
 .tooltip-inner {

@@ -1,12 +1,22 @@
+import { Issue } from 'interface/issue';
+import { User } from 'interface/user';
+import { useEffect, useState } from 'react';
 import { useDrag } from 'react-dnd';
+import { useAppSelector } from 'store';
 import './issue-card.scss';
 
 interface DropResult {
-  name: string
+  name: string;
 }
 
-const IssueCard = () => {
-  const [{ isDragging }, drag] = useDrag(() => ({
+interface IssueCardProps {
+  issue: Issue;
+}
+
+const IssueCard = ({ issue }: IssueCardProps) => {
+  const { project } = useAppSelector((state) => state.project);
+  const [members, setMembers] = useState<User[]>([]);
+  const [drag] = useDrag(() => ({
     type: 'issue',
     item: { name },
     end: (item, monitor) => {
@@ -21,17 +31,23 @@ const IssueCard = () => {
     })
   }));
 
-  console.log(isDragging);
+  useEffect(() => {
+    const listUser = project.users.filter((user) => issue.userIds.includes(user.id)) as User[];
+    setMembers(listUser);
+  }, [issue]);
 
   return (
     <div className="issue__card" ref={drag}>
-      <div className="issue__card__title">Angular sportify</div>
+      <div className="issue__card__title">{issue.title}</div>
       <div className="flex items-center">
-        <div
-          className="issue__avatar issue__avatar--w24"
-          style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
-        ></div>
-        <span className="issue__category uppercase ml-3 text-sm">STORY-2021</span>
+        {members.slice(0, 3).map((member) => (
+          <div
+            key={issue.id + member.id}
+            className="issue__avatar issue__avatar--w24"
+            style={{ backgroundImage: `url(${member.avatarUrl})` }}
+          ></div>
+        ))}
+        <span className="issue__category uppercase ml-3 text-sm">{`${issue.status} - ${issue.id}`}</span>
         <div className="flex items-center ml-auto">
           <span className="issue__icon story-icon base-tooltip" data-content="Story">
             <i className="fa fa-bookmark"></i>

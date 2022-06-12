@@ -1,8 +1,8 @@
-import { Navigation, Breadcum } from 'components';
+import { Breadcum, Navigation } from 'components';
 import { Kanban, Settings } from 'pages';
-import { Routes, Route, Outlet } from 'react-router-dom';
-import { useDrop, DndProvider } from 'react-dnd';
+import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Outlet, Route, Routes } from 'react-router-dom';
 import './App.scss';
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
         element={
           <div className="flex w-100">
             <Navigation />
-            <div className="main grow-default flex flex-col">
+            <div className="main grow-default flex flex-col max-h-screen">
               <Breadcum />
               <div className="main__content mt-3 grow-default">
                 <Outlet />
