@@ -1,40 +1,40 @@
 {
   "id": "140892",
-  "name": "Angular Jira Clone",
-  "url": "https://github.com/trungk18/jira-clone-angular",
-  "description": "A Jira clone app built with Angular 10, Akita and ng-zorro - by trungk18",
+  "name": "React Jira Clone",
+  "url": "https://github.com/thuytran95/jira-clone-react",
+  "description": "A Jira clone app built with ReactJS, Tailwincss",
   "category": "Software",
   "createdAt": "2020-06-12T16:00:00.000Z",
   "updatedAt": "2020-06-13T16:00:00.000Z",
   "users": [
     {
       "id": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "name": "Trung Vo",
-      "avatarUrl": "https://res.cloudinary.com/dvujyxh7e/image/upload/c_scale,w_48/v1593253478/trung-vo_bioxmc.png",
+      "name": "Thuy Tran",
+      "avatarUrl": "https://images.unsplash.com/photo-1614624532983-4ce03382d63d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHdvcmtzcGFjZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
       "projectId": "140892"
     },
     {
       "id": "7ac265f9-b9ac-443f-a2b2-795682e579a4",
-      "name": "Iron Man",
-      "avatarUrl": "https://res.cloudinary.com/dvujyxh7e/image/upload/c_scale,w_48/v1592405732/ironman_c3jrbc.jpg",
+      "name": "Susan",
+      "avatarUrl": "https://media.istockphoto.com/photos/modern-young-woman-of-asian-ethnicity-elearning-via-laptop-at-the-picture-id1344252956?b=1&k=20&m=1344252956&s=170667a&w=0&h=KSioskSSxYdQ4O1OEQLzTPKbPoJkDzY5zKPJJdScFqc=",
       "projectId": "140892"
     },
     {
       "id": "94502aad-c97f-43e1-a9d1-28cf3e4937a7",
-      "name": "Captain",
-      "avatarUrl": "https://res.cloudinary.com/dvujyxh7e/image/upload/c_scale,w_48/v1592405732/captain_e8s9nk.jpg",
+      "name": "Liam",
+      "avatarUrl": "https://media.istockphoto.com/photos/cropped-shot-of-an-affectionate-young-family-of-three-taking-a-walk-picture-id1389754715?b=1&k=20&m=1389754715&s=170667a&w=0&h=G5vjsfJOdNccBhHsshLvWa2CqsdRbVZ0KRMpdcDpUto=",
       "projectId": "140892"
     },
     {
       "id": "610451aa-10c8-4d7e-9363-311357c0b0dd",
-      "name": "Thor",
-      "avatarUrl": "https://res.cloudinary.com/dvujyxh7e/image/upload/c_scale,w_48/v1592405731/thor_juqwzf.jpg",
+      "name": "Hoang Tran",
+      "avatarUrl": "https://images.unsplash.com/photo-1593872222524-361daae4f782?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8c3VufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
       "projectId": "140892"
     },
     {
       "id": "081ccaa1-5595-4621-8074-ede4927e67b0",
-      "name": "Spider Man",
-      "avatarUrl": "https://res.cloudinary.com/dvujyxh7e/image/upload/c_scale,w_48/v1592405731/spiderman_zlrtx0.jpg",
+      "name": "John",
+      "avatarUrl": "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHNlYXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
       "projectId": "140892"
     }
   ],
@@ -49,7 +49,9 @@
       "title": "Behind the 900 stars - Update 08/2020",
       "type": "Story",
       "updatedAt": "2020-08-27T14:23:38.183Z",
-      "userIds": ["d65047e5-f4cf-4caa-9a38-6073dcbab7d1"],
+      "userIds": [
+        "d65047e5-f4cf-4caa-9a38-6073dcbab7d1"
+      ],
       "listPosition": 1
     },
     {
@@ -58,7 +60,9 @@
       "title": "Jira Clone Storybook - Update 10/2020",
       "description": "<h3>What is Storybook</h3><p>Storybook helps you build UI components in isolation from your app's business logic, data, and context. That makes it easy to develop hard-to-reach states. Save these UI states as&nbsp;stories&nbsp;to revisit during development, testing, or QA.</p><h3><br></h3><h3>Jira Clone Storybook</h3><p>This is the collection of components that I wrote for <a href='http://jira.trungk18.com/' rel='noopener noreferrer' target='_blank' style='color: var(--vscode-textLink-foreground);'>jira.trungk18.com</a>, includes:</p><ul><li>Avatar</li><li>Breadcrumbs</li><li>Button</li><li>Input</li><li>More to come...</li></ul><p><br></p><p>Check out the&nbsp;storybook demo&nbsp;-&gt;&nbsp;<a href=\"https://jira-storybook.trungk18.com/\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: var(--color-text-link);\">https://jira-storybook.trungk18.com/</a></p><p><br></p><p><a href=\"https://github.com/trungk18/jira-clone-angular/blob/master/frontend/src/assets/img/jira-storybook.gif\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: var(--color-text-link); background-color: var(--color-bg-primary);\"><img src=\"https://github.com/trungk18/jira-clone-angular/raw/master/frontend/src/assets/img/jira-storybook.gif\" alt=\"Jira clone built with Angular 10, Akita and ng-zorro\"></a></p>",
       "reporterId": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "userIds": ["d65047e5-f4cf-4caa-9a38-6073dcbab7d1"],
+      "userIds": [
+        "d65047e5-f4cf-4caa-9a38-6073dcbab7d1"
+      ],
       "id": "73",
       "status": "InProgress",
       "createdAt": "2020-10-26T15:13:08.070Z",
@@ -71,7 +75,9 @@
       "title": "Angular Spotify 🎧",
       "description": "<h3>Hey Angular people, what's up? 😆</h3><p>I wanted to introduce you my latest application: <strong>Angular Spotify.</strong></p><p><br></p><p>It is a simple Spotify client built with Angular 11, Nx workspace, ngrx, TailwindCSS and ng-zorro.</p><p><br></p><p>Check out the&nbsp;live application&nbsp;-&gt; <a href=\"https://spotify.trungk18.com\" rel=\"noopener noreferrer\" target=\"_blank\">https://spotify.trungk18.com</a></p><p><span style=\"color: var(--color-text-link);\">Source code: </span><a href=\"https://github.com/trungk18/angular-spotify\" rel=\"noopener noreferrer\" target=\"_blank\">https://github.com/trungk18/angular-spotify</a></p><p><br></p><p>Spotify premium&nbsp;is required for the Web Playback SDK to play music. If you are using a free account, you can still browse the app, but it couldn't play the music. Sorry about that&nbsp;🤣</p><h2><br></h2><p><a href=\"https://github.com/trungk18/angular-spotify/blob/main/libs/web/shared/assets/src/assets/readme/angular-spotify-demo-short.gif\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: var(--color-text-link); background-color: var(--color-bg-primary);\"><img src=\"https://github.com/trungk18/angular-spotify/raw/main/libs/web/shared/assets/src/assets/readme/angular-spotify-demo-short.gif\" alt=\"Angular Spotify Demo\"></a></p><p><br></p><p><br></p><p><a href=\"https://github.com/trungk18/angular-spotify/blob/main/libs/web/shared/assets/src/assets/readme/angular-spotify-visualization.gif\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: var(--color-text-link); background-color: var(--color-bg-primary);\"><img src=\"https://github.com/trungk18/angular-spotify/raw/main/libs/web/shared/assets/src/assets/readme/angular-spotify-visualization.gif\" alt=\"Angular Spotify Visualizer\"></a></p><p><br></p>",
       "reporterId": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "userIds": ["d65047e5-f4cf-4caa-9a38-6073dcbab7d1"],
+      "userIds": [
+        "d65047e5-f4cf-4caa-9a38-6073dcbab7d1"
+      ],
       "id": "2021",
       "status": "Backlog",
       "createdAt": "2021-04-28T14:56:55.049Z",
@@ -84,7 +90,9 @@
       "title": "Merry Christmas 🎄🎄🎄",
       "description": "<p><span style='background-color: transparent;'>2020 is about to an end, and the holiday session is coming. It was such a particular year for you and me. I have been staying in Singapore for more than eight months without traveling anywhere else. Probably, I will not be able to come back home for our upcoming Tet holiday. But tough times will make us </span><u style='background-color: transparent;'>stronger</u><span style='background-color: transparent;'>, I believe so :)</span></p><p><br></p><p><span style='background-color: transparent;'>I want to take this opportunity to say </span><u style='background-color: transparent;'>thank you for all of your support</u><span style='background-color: transparent;'> for my project, especially for Angular Jira Clone. Seeing my work got lots of positive comments and discussions made my 2020 genuinely unforgettable. I am working on some exciting Angular projects, and hopefully I can publish them very soon in 2021.</span></p><p><br></p><p><strong style='background-color: transparent;'>I hope your holiday season is full of peace, joy, and happiness. Stay safe!</strong></p><p><br></p><p><span style='color: rgb(0, 0, 0);'><img src='https://res.cloudinary.com/dvujyxh7e/image/upload/c_scale,w_250/v1608345048/christmas_totoro_2013-02_wphb7s.jpg'></span></p><p><br></p><p>P/s: This is Totoro, my most favorite character 😂</p>",
       "reporterId": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "userIds": ["d65047e5-f4cf-4caa-9a38-6073dcbab7d1"],
+      "userIds": [
+        "d65047e5-f4cf-4caa-9a38-6073dcbab7d1"
+      ],
       "id": "2020",
       "status": "Done",
       "createdAt": "2020-12-19T03:00:00.000Z",
@@ -97,7 +105,9 @@
       "title": "How to build Jira clone? Follow these tutorials from its author. Update part 8 - 11/2020 😍",
       "description": "<h3>I have prepared a set of tutorial for some major components of Jira clone, feel free to take a look! More to come, the tutorials will have at least 10 posts 😊😊😊</h3><p><br></p><ol><li><a href='https://trungk18.com/experience/angular-jira-clone-tutorial-00-prerequisites/' rel='noopener noreferrer' target='_blank' style='color: rgb(3, 102, 214);'>Prerequisites</a></li><li><a href='https://trungk18.com/experience/angular-jira-clone-tutorial-01-planning-and-set-up/' rel='noopener noreferrer' target='_blank' style='color: rgb(3, 102, 214);'>Create a new repository and set up a new Angular application with CLI</a></li><li><a href='https://trungk18.com/experience/angular-jira-clone-tutorial-02-application-layout-tailwindcss-flex/' rel='noopener noreferrer' target='_blank' style='color: rgb(3, 102, 214);'>Build the application layout with flex and TailwindCSS</a></li><li><a href='https://trungk18.com/experience/angular-jira-clone-tutorial-03-akita-state-management/' rel='noopener noreferrer' target='_blank' style='color: rgb(3, 102, 214);'>Setup Akita state management</a></li><li><a href='https://trungk18.com/experience/angular-jira-clone-tutorial-04-editable-textbox/' rel='noopener noreferrer' target='_blank' style='color: rgb(3, 102, 214);'>Build an editable textbox</a></li><li><a href='https://trungk18.com/experience/angular-jira-clone-tutorial-05-interactive-drag-and-drop-board/' rel='noopener noreferrer' target='_blank' style='color: rgb(3, 102, 214);'>Build an interactive drag and drop board</a></li><li><a href='https://trungk18.com/experience/angular-jira-clone-tutorial-06-angular-markdown-text-editor/' rel='noopener noreferrer' target='_blank'>Build a markdown text editor</a></li><li><a href='https://trungk18.com/experience/angular-jira-clone-tutorial-07-rich-text-editor/' rel='noopener noreferrer' target='_blank'>Build a rich text HTML editor</a></li><li><a href='https://trungk18.com/experience/angular-jira-clone-tutorial-08-angular-placeholder-loading/' rel='noopener noreferrer' target='_blank'>Build a placeholder loading</a></li></ol>",
       "reporterId": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "userIds": ["d65047e5-f4cf-4caa-9a38-6073dcbab7d1"],
+      "userIds": [
+        "d65047e5-f4cf-4caa-9a38-6073dcbab7d1"
+      ],
       "id": "3957",
       "status": "InProgress",
       "createdAt": "2020-09-15T23:41:37.278Z",
@@ -115,7 +125,10 @@
       "createdAt": "2020-06-12T14:40:01.262Z",
       "updatedAt": "2020-06-12T14:40:01.262Z",
       "reporterId": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "userIds": ["d65047e5-f4cf-4caa-9a38-6073dcbab7d1", "7ac265f9-b9ac-443f-a2b2-795682e579a4"]
+      "userIds": [
+        "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
+        "7ac265f9-b9ac-443f-a2b2-795682e579a4"
+      ]
     },
     {
       "id": "9210",
@@ -128,7 +141,10 @@
       "createdAt": "2020-06-12T14:40:01.262Z",
       "updatedAt": "2020-06-12T14:40:01.262Z",
       "reporterId": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "userIds": ["d65047e5-f4cf-4caa-9a38-6073dcbab7d1", "94502aad-c97f-43e1-a9d1-28cf3e4937a7"]
+      "userIds": [
+        "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
+        "94502aad-c97f-43e1-a9d1-28cf3e4937a7"
+      ]
     },
     {
       "id": "9361",
@@ -141,7 +157,9 @@
       "createdAt": "2020-06-12T14:40:01.346Z",
       "updatedAt": "2020-06-12T14:40:01.346Z",
       "reporterId": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "userIds": ["081ccaa1-5595-4621-8074-ede4927e67b0"]
+      "userIds": [
+        "081ccaa1-5595-4621-8074-ede4927e67b0"
+      ]
     },
     {
       "id": "9451",
@@ -154,12 +172,14 @@
       "createdAt": "2020-06-12T14:40:01.262Z",
       "updatedAt": "2020-06-12T14:48:00.807Z",
       "reporterId": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "userIds": ["d65047e5-f4cf-4caa-9a38-6073dcbab7d1"]
+      "userIds": [
+        "d65047e5-f4cf-4caa-9a38-6073dcbab7d1"
+      ]
     },
     {
       "id": "9631",
       "title": "Each issue has a single reporter but can have multiple assignees.",
-      "description": "<h2>Try assigning this issue to <strong><u>Spider Man</u></strong>. <span style='color: rgb(51, 51, 51);'>🤣&nbsp;🤣&nbsp;🤣</span></h2>",
+      "description": "<h2>Try assigning this issue to <strong><u>John</u></strong>. <span style='color: rgb(51, 51, 51);'>🤣&nbsp;🤣&nbsp;🤣</span></h2>",
       "type": "Task",
       "status": "Selected",
       "priority": "Low",
@@ -167,7 +187,10 @@
       "createdAt": "2020-06-12T14:40:01.350Z",
       "updatedAt": "2020-06-12T14:51:09.653Z",
       "reporterId": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "userIds": ["610451aa-10c8-4d7e-9363-311357c0b0dd", "94502aad-c97f-43e1-a9d1-28cf3e4937a7"]
+      "userIds": [
+        "610451aa-10c8-4d7e-9363-311357c0b0dd",
+        "94502aad-c97f-43e1-a9d1-28cf3e4937a7"
+      ]
     },
     {
       "id": "9546",
@@ -180,7 +203,9 @@
       "createdAt": "2020-06-12T14:40:01.304Z",
       "updatedAt": "2020-06-12T14:52:02.173Z",
       "reporterId": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "userIds": ["d65047e5-f4cf-4caa-9a38-6073dcbab7d1"]
+      "userIds": [
+        "d65047e5-f4cf-4caa-9a38-6073dcbab7d1"
+      ]
     },
     {
       "id": "9548",
@@ -193,7 +218,9 @@
       "createdAt": "2020-06-12T14:40:01.304Z",
       "updatedAt": "2020-06-12T14:52:02.173Z",
       "reporterId": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "userIds": ["d65047e5-f4cf-4caa-9a38-6073dcbab7d1"]
+      "userIds": [
+        "d65047e5-f4cf-4caa-9a38-6073dcbab7d1"
+      ]
     },
     {
       "id": "9584",
@@ -206,7 +233,10 @@
       "createdAt": "2020-06-12T14:40:00.000Z",
       "updatedAt": "2020-06-12T14:51:00.000Z",
       "reporterId": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "userIds": ["081ccaa1-5595-4621-8074-ede4927e67b0", "610451aa-10c8-4d7e-9363-311357c0b0dd"]
+      "userIds": [
+        "081ccaa1-5595-4621-8074-ede4927e67b0",
+        "610451aa-10c8-4d7e-9363-311357c0b0dd"
+      ]
     },
     {
       "id": "9554",
@@ -219,7 +249,9 @@
       "createdAt": "2020-06-12T14:40:00.000Z",
       "updatedAt": "2020-06-12T14:51:00.000Z",
       "reporterId": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "userIds": ["d65047e5-f4cf-4caa-9a38-6073dcbab7d1"]
+      "userIds": [
+        "d65047e5-f4cf-4caa-9a38-6073dcbab7d1"
+      ]
     },
     {
       "id": "9665",
@@ -232,7 +264,10 @@
       "createdAt": "2020-06-12T14:40:00.000Z",
       "updatedAt": "2020-06-12T14:51:00.000Z",
       "reporterId": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "userIds": ["94502aad-c97f-43e1-a9d1-28cf3e4937a7", "7ac265f9-b9ac-443f-a2b2-795682e579a4"]
+      "userIds": [
+        "94502aad-c97f-43e1-a9d1-28cf3e4937a7",
+        "7ac265f9-b9ac-443f-a2b2-795682e579a4"
+      ]
     },
     {
       "id": "9667",
@@ -245,7 +280,9 @@
       "createdAt": "2020-06-28T15:30:00.000Z",
       "updatedAt": "2020-06-28T16:30:00.000Z",
       "reporterId": "d65047e5-f4cf-4caa-9a38-6073dcbab7d1",
-      "userIds": ["d65047e5-f4cf-4caa-9a38-6073dcbab7d1"]
+      "userIds": [
+        "d65047e5-f4cf-4caa-9a38-6073dcbab7d1"
+      ]
     }
   ]
 }

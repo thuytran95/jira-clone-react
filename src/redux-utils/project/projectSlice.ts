@@ -12,7 +12,13 @@ const initState: ProjectState = {
 const projectSlice = createSlice({
   name: 'project',
   initialState: initState,
-  reducers: {}
+  reducers: {
+    updateProject: (state, action) => {
+      const newProject = { ...state.project, ...action.payload };
+      state.project = newProject;
+    }
+  }
 });
 
 export default projectSlice.reducer;
+export const { updateProject } = projectSlice.actions;

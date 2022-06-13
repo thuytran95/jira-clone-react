@@ -87,6 +87,16 @@ textarea {
   border: 1px solid #dfe1e6;
 }
 
+.border-error {
+  border: 1px solid red;
+}
+
+input.border-error {
+  &:focus {
+    border-color: red;
+  }
+}
+
 .dropdown-toggle {
   &::after {
     display: none;

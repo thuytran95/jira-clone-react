@@ -53,7 +53,6 @@ const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
     <div className="kanban__board__item" ref={drop}>
       <h5 className="kanban__board__title">{`${IssueStatusDisplay[status]} ${issues.length}`}</h5>
       {issueItems?.map((issue) => {
-        console.log(issue);
         if (issue) {
           return (
             <IssueCard
