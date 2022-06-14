@@ -1,11 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { Issue,IssueStatusType } from 'interface/issue';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Issue, IssueStatusType } from 'interface/issue';
 
 export interface IssueState {
   backlogIssues: Issue[];
   selectedIssues: Issue[];
   inProgressIssues: Issue[];
   doneIssues: Issue[];
+}
+
+export interface UpdateIssuesPayload {
+  status: IssueStatusType;
+  issue: Issue;
+  hoverIndex: number;
 }
 
 const initialState: IssueState = {
@@ -53,9 +59,42 @@ const issueSlice = createSlice({
       state.selectedIssues = newIssues.selectedIssues || [];
       state.inProgressIssues = newIssues.inProgressIssues || [];
       state.doneIssues = newIssues.doneIssues || [];
+    },
+    updateIssues: (state, action: PayloadAction<UpdateIssuesPayload>) => {
+      const { payload } = action;
+      const { status, issue , hoverIndex} = payload;
+      const newIssue = {...issue, status};
+
+      const issueStatus = issue.status as string;
+      const prevStatus = (issueStatus[0].toLowerCase() +
+        issueStatus.slice(1) +
+        'Issues') as keyof IssueState;
+      switch (status) {
+        case IssueStatusType.BACKLOG: {
+          state.backlogIssues.splice(hoverIndex, 0, newIssue);
+          state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
+          break;
+        }
+        case IssueStatusType.SELECTED: {
+          state.selectedIssues.splice(hoverIndex, 0, newIssue);
+          state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
+          break;
+        }
+        case IssueStatusType.IN_PROGRESS: {
+          state.inProgressIssues.splice(hoverIndex, 0, newIssue);
+          state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
+          break;
+        }
+        default:
+          state.doneIssues.splice(hoverIndex, 0, newIssue);
+          state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
+          break;
+      }
+
+      return state;
     }
   }
 });
 
-export const { getIssues } = issueSlice.actions;
+export const { getIssues, updateIssues } = issueSlice.actions;
 export default issueSlice.reducer;

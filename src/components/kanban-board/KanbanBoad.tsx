@@ -1,4 +1,5 @@
 import { IssueCard } from 'components/issues';
+import { DragItem } from 'components/issues/issue-card/IssueCard';
 import { Issue, IssueDropTypes, IssueStatusDisplay, IssueStatusType } from 'interface/issue';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDrop } from 'react-dnd';
@@ -13,11 +14,14 @@ const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
   const [issueItems, setIssueItems] = useState<Issue[]>([]);
   const [, drop] = useDrop(() => ({
     accept: IssueDropTypes.ISSUE,
-    drop: () => ({ name: 'kanban-board' }),
+    drop: () => ({ name: status }),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop()
-    })
+    }),
+    hover: (item, monitor) =>  {
+      console.log(item);
+    },
   }));
 
   const findIssueCard = useCallback(
@@ -31,19 +35,16 @@ const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
     [issues]
   );
 
-  const moveIssueCard = useCallback(
-    (id: string, atIndex: number) => {
-      // const { issue, index } = findIssueCard(id);
-      // const newIssueItems = [...issueItems] as Issue[];
+  const moveIssueCard = useCallback((dragIndex: number, hoverIndex: number) => {
+    setIssueItems((prevIssues: Issue[]) => {
+      const newIssues = [...prevIssues];
+      const prevIssue = { ...prevIssues[hoverIndex] };
 
-//       const prevIssue = newIssueItems[atIndex];
-//       newIssueItems[atIndex] = issue;
-//       newIssueItems[index] = prevIssue;
-//
-//       setIssueItems(newIssueItems);
-    },
-    [findIssueCard, issues, setIssueItems]
-  );
+      newIssues[hoverIndex] = prevIssues[dragIndex];
+      newIssues[dragIndex] = prevIssue;
+      return newIssues;
+    });
+  }, []);
 
   useEffect(() => {
     setIssueItems(issues);
@@ -52,17 +53,19 @@ const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
   return (
     <div className="kanban__board__item" ref={drop}>
       <h5 className="kanban__board__title">{`${IssueStatusDisplay[status]} ${issues.length}`}</h5>
-      {issueItems?.map((issue) => {
-        if (issue) {
+      {issueItems?.map((issue, index) => {
+        if(issue){
           return (
             <IssueCard
               key={issue.id}
               issue={issue}
+              index={index}
               findIssueCard={findIssueCard}
               moveIssueCard={moveIssueCard}
             />
           );
         }
+       
       })}
     </div>
   );
