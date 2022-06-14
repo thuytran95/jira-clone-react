@@ -1,6 +1,7 @@
 import { IssueCard } from 'components/issues';
 import { Issue, IssueDropTypes, IssueStatusDisplay, IssueStatusType } from 'interface/issue';
 import React, { useCallback, useEffect, useState } from 'react';
+import update from 'immutability-helper';
 import { useDrop } from 'react-dnd';
 import './kanban-board-item.scss';
 
@@ -31,19 +32,16 @@ const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
     [issues]
   );
 
-  const moveIssueCard = useCallback(
-    (id: string, atIndex: number) => {
-      // const { issue, index } = findIssueCard(id);
-      // const newIssueItems = [...issueItems] as Issue[];
-
-//       const prevIssue = newIssueItems[atIndex];
-//       newIssueItems[atIndex] = issue;
-//       newIssueItems[index] = prevIssue;
-//
-//       setIssueItems(newIssueItems);
-    },
-    [findIssueCard, issues, setIssueItems]
-  );
+  const moveIssueCard = useCallback((dragIndex: number, hoverIndex: number) => {
+    setIssueItems((prevIssues: Issue[]) =>
+      update(prevIssues, {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, prevIssues[dragIndex] as Issue],
+        ],
+      }),
+    )
+  }, [])
 
   useEffect(() => {
     setIssueItems(issues);
@@ -52,17 +50,16 @@ const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
   return (
     <div className="kanban__board__item" ref={drop}>
       <h5 className="kanban__board__title">{`${IssueStatusDisplay[status]} ${issues.length}`}</h5>
-      {issueItems?.map((issue) => {
-        if (issue) {
-          return (
-            <IssueCard
-              key={issue.id}
-              issue={issue}
-              findIssueCard={findIssueCard}
-              moveIssueCard={moveIssueCard}
-            />
-          );
-        }
+      {issueItems?.map((issue, index) => {
+        return (
+          <IssueCard
+            key={issue.id}
+            issue={issue}
+            index={index}
+            findIssueCard={findIssueCard}
+            moveIssueCard={moveIssueCard}
+          />
+        );
       })}
     </div>
   );
