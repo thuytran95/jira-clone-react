@@ -1,80 +1,107 @@
 import { Issue, IssueDropTypes, IssuePriority } from 'interface/issue';
 import { User } from 'interface/user';
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useAppSelector } from 'store';
 import { IssueUtils } from 'utils/issue';
+import type { Identifier, XYCoord } from 'dnd-core';
 import './issue-card.scss';
-
-interface DropResult {
-  name: string;
-}
 
 interface IssueCardProps {
   issue: Issue;
-  moveIssueCard: (id: string, to: number) => void;
+  index: number;
+  moveIssueCard: (dragIndex: number, hoverIndex: number) => void;
   findIssueCard: (id: string) => { index: number };
 }
 
-interface Item {
+interface DragItem {
+  index: number;
   id: string;
-  originalIndex: number;
+  type: string;
 }
 
-const IssueCard = ({ issue, findIssueCard, moveIssueCard }: IssueCardProps) => {
+const IssueCard = ({ issue, index, moveIssueCard }: IssueCardProps) => {
   const { project } = useAppSelector((state) => state.project);
   const [members, setMembers] = useState<User[]>([]);
   const priority = issue.priority as IssuePriority;
   const isuePriorityIcon = IssueUtils.getIssuePriorityIcon(priority);
-
-  const originalIndex = findIssueCard(issue?.id).index;
-
-
-  const [, drag] = useDrag(
-    () => ({
-      type: IssueDropTypes.ISSUE,
-      item: { id: issue?.id, originalIndex },
-      end: (item, monitor) => {
-        const dropResult = monitor.getDropResult<DropResult>();
-        const { id: droppedId, originalIndex } = item;
-        const didDrop = monitor.didDrop();
-        if (!didDrop) {
-          moveIssueCard(droppedId, originalIndex);
-        }
-        // if (item && dropResult) {
-        //   console.log('drop');
-        //   // moveIssueCard()
-        // }
-      },
-      collect: (monitor) => ({
-        isDragging: monitor.isDragging(),
+  const ref = useRef<HTMLDivElement>(null);
+  const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: Identifier | null }>({
+    accept: IssueDropTypes.ISSUE,
+    collect(monitor) {
+      return {
         handlerId: monitor.getHandlerId()
-      })
-    }),
-    [issue, findIssueCard, moveIssueCard]
-  );
-
-  const [, drop] = useDrop(
-    () => ({
-      accept: IssueDropTypes.ISSUE,
-      hover({ id: draggedId }: Item) {
-        if (draggedId !== issue?.id) {
-          const { index: overIndex } = findIssueCard(issue?.id);
-          moveIssueCard(draggedId, overIndex);
-        }
+      };
+    },
+    hover(item: DragItem, monitor) {
+      if (!ref.current) {
+        return;
       }
-    }),
-    [issue, findIssueCard, moveIssueCard]
-  );
+      const dragIndex = item.index;
+      const hoverIndex = index;
 
+      // Don't replace items with themselves
+      if (dragIndex === hoverIndex) {
+        return;
+      }
+
+      // Determine rectangle on screen
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+
+      // Get vertical middle
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+
+      // Determine mouse position
+      const clientOffset = monitor.getClientOffset();
+
+      // Get pixels to the top
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
+
+      // Only perform the move when the mouse has crossed half of the items height
+      // When dragging downwards, only move when the cursor is below 50%
+      // When dragging upwards, only move when the cursor is above 50%
+
+      // Dragging downwards
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return;
+      }
+
+      // Dragging upwards
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return;
+      }
+
+      // Time to actually perform the action
+      moveIssueCard(dragIndex, hoverIndex);
+
+      // Note: we're mutating the monitor item here!
+      // Generally it's better to avoid mutations,
+      // but it's good here for the sake of performance
+      // to avoid expensive index searches.
+      item.index = hoverIndex;
+    }
+  });
+
+  const [{ isDragging }, drag] = useDrag({
+    type: IssueDropTypes.ISSUE,
+    item: () => {
+      return { id: issue.id, index };
+    },
+    collect: (monitor: any) => ({
+      isDragging: monitor.isDragging()
+    })
+  });
   useEffect(() => {
     const listUser = project.users.filter((user) => issue.userIds.includes(user.id)) as User[];
     setMembers(listUser);
   }, [issue]);
 
+  const opacity = isDragging ? 0 : 1;
   if (issue) {
+    drag(drop(ref));
+
     return (
-      <div className="issue__card" ref={(node) => drag(drop(node))}>
+      <div className="issue__card" ref={ref} data-handler-id={handlerId} style={{ opacity }}>
         <div className="issue__card__title">{issue.title}</div>
         <div className="flex items-center">
           {members.slice(0, 3).map((member) => (
