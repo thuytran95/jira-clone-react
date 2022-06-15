@@ -65,7 +65,7 @@ const IssueCreate = ({ show, handleToggleModal }: IssueCreateProps) => {
             <label htmlFor="catergory" className="mb-2">
               Issue type
             </label>
-            
+
             <Dropdown>
               <Dropdown.Toggle className="flex items-center w-100 justify-start text-textMedium uppercase px-3 py-2">
                 <span
@@ -243,7 +243,7 @@ const IssueCreate = ({ show, handleToggleModal }: IssueCreateProps) => {
                     </div>
                   );
                 },
-                MultiValueLabel
+                // MultiValueLabel
               }}
             ></Select>
           </div>

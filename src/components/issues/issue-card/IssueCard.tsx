@@ -2,10 +2,11 @@ import { Issue, IssueDropTypes, IssuePriority } from 'interface/issue';
 import { User } from 'interface/user';
 import { memo, useEffect, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { useAppSelector } from 'store';
+import { useAppDispatch, useAppSelector } from 'store';
 import { IssueUtils } from 'utils/issue';
 import type { Identifier, XYCoord } from 'dnd-core';
 import './issue-card.scss';
+import { updateIssues, UpdateIssuesPayload } from 'redux-utils/issue/issueSlice';
 
 interface IssueCardProps {
   issue: Issue;
@@ -18,14 +19,17 @@ interface DragItem {
   index: number;
   id: string;
   type: string;
+  issue: Issue;
 }
 
 const IssueCard = ({ issue, index, moveIssueCard }: IssueCardProps) => {
-  const { project } = useAppSelector((state) => state.project);
   const [members, setMembers] = useState<User[]>([]);
+  const { project } = useAppSelector((state) => state.project);
   const priority = issue.priority as IssuePriority;
   const isuePriorityIcon = IssueUtils.getIssuePriorityIcon(priority);
   const ref = useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
+
   const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: Identifier | null }>({
     accept: IssueDropTypes.ISSUE,
     collect(monitor) {
@@ -79,13 +83,24 @@ const IssueCard = ({ issue, index, moveIssueCard }: IssueCardProps) => {
       // but it's good here for the sake of performance
       // to avoid expensive index searches.
       item.index = hoverIndex;
+      item.issue = issue;
     }
   });
 
   const [{ isDragging }, drag] = useDrag({
     type: IssueDropTypes.ISSUE,
     item: () => {
-      return { id: issue.id, index };
+      return { id: issue.id, index, issue: issue };
+    },
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult<any>();
+      const { issue } = item;
+      console.log(issue);
+      if (issue && dropResult && dropResult.name && issue.status !== dropResult.name) {
+        const params = { status: dropResult.name, issue } as UpdateIssuesPayload;
+        dispatch(updateIssues(params));
+        console.log('different');
+      }
     },
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging()

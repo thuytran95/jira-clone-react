@@ -1,7 +1,6 @@
 import { IssueCard } from 'components/issues';
 import { Issue, IssueDropTypes, IssueStatusDisplay, IssueStatusType } from 'interface/issue';
 import React, { useCallback, useEffect, useState } from 'react';
-import update from 'immutability-helper';
 import { useDrop } from 'react-dnd';
 import './kanban-board-item.scss';
 
@@ -14,7 +13,7 @@ const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
   const [issueItems, setIssueItems] = useState<Issue[]>([]);
   const [, drop] = useDrop(() => ({
     accept: IssueDropTypes.ISSUE,
-    drop: () => ({ name: 'kanban-board' }),
+    drop: () => ({ name: status }),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop()
@@ -33,15 +32,15 @@ const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
   );
 
   const moveIssueCard = useCallback((dragIndex: number, hoverIndex: number) => {
-    setIssueItems((prevIssues: Issue[]) =>
-      update(prevIssues, {
-        $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, prevIssues[dragIndex] as Issue],
-        ],
-      }),
-    )
-  }, [])
+    setIssueItems((prevIssues: Issue[]) => {
+      const newIssues = [...prevIssues];
+      const prevIssue = { ...prevIssues[hoverIndex] };
+
+      newIssues[hoverIndex] = prevIssues[dragIndex];
+      newIssues[dragIndex] = prevIssue;
+      return newIssues;
+    });
+  }, []);
 
   useEffect(() => {
     setIssueItems(issues);
