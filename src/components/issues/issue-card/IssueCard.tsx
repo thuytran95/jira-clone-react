@@ -15,11 +15,12 @@ interface IssueCardProps {
   findIssueCard: (id: string) => { index: number };
 }
 
-interface DragItem {
+export interface DragItem {
   index: number;
   id: string;
   type: string;
   issue: Issue;
+  hoverIndex: number;
 }
 
 const IssueCard = ({ issue, index, moveIssueCard }: IssueCardProps) => {
@@ -43,37 +44,37 @@ const IssueCard = ({ issue, index, moveIssueCard }: IssueCardProps) => {
       }
       const dragIndex = item.index;
       const hoverIndex = index;
-
       // Don't replace items with themselves
+      console.log({dragIndex, hoverIndex})
       if (dragIndex === hoverIndex) {
         return;
       }
 
       // Determine rectangle on screen
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      // const hoverBoundingRect = ref.current?.getBoundingClientRect();
 
-      // Get vertical middle
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      // // Get vertical middle
+      // const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
-      // Determine mouse position
-      const clientOffset = monitor.getClientOffset();
+      // // Determine mouse position
+      // const clientOffset = monitor.getClientOffset();
 
-      // Get pixels to the top
-      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
+      // // Get pixels to the top
+      // const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
 
-      // Only perform the move when the mouse has crossed half of the items height
-      // When dragging downwards, only move when the cursor is below 50%
-      // When dragging upwards, only move when the cursor is above 50%
+      // // Only perform the move when the mouse has crossed half of the items height
+      // // When dragging downwards, only move when the cursor is below 50%
+      // // When dragging upwards, only move when the cursor is above 50%
 
-      // Dragging downwards
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
+      // // Dragging downwards
+      // if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+      //   return;
+      // }
 
-      // Dragging upwards
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
+      // // Dragging upwards
+      // if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+      //   return;
+      // }
 
       // Time to actually perform the action
       moveIssueCard(dragIndex, hoverIndex);
@@ -95,11 +96,9 @@ const IssueCard = ({ issue, index, moveIssueCard }: IssueCardProps) => {
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult<any>();
       const { issue } = item;
-      console.log(issue);
       if (issue && dropResult && dropResult.name && issue.status !== dropResult.name) {
-        const params = { status: dropResult.name, issue } as UpdateIssuesPayload;
+        const params = { status: dropResult.name, issue ,hoverIndex: item.index} as UpdateIssuesPayload;
         dispatch(updateIssues(params));
-        console.log('different');
       }
     },
     collect: (monitor: any) => ({

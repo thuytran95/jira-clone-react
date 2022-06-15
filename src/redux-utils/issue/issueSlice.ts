@@ -11,6 +11,7 @@ export interface IssueState {
 export interface UpdateIssuesPayload {
   status: IssueStatusType;
   issue: Issue;
+  hoverIndex: number;
 }
 
 const initialState: IssueState = {
@@ -61,31 +62,31 @@ const issueSlice = createSlice({
     },
     updateIssues: (state, action: PayloadAction<UpdateIssuesPayload>) => {
       const { payload } = action;
-      const { status, issue } = payload;
+      const { status, issue , hoverIndex} = payload;
+      const newIssue = {...issue, status};
 
       const issueStatus = issue.status as string;
       const prevStatus = (issueStatus[0].toLowerCase() +
         issueStatus.slice(1) +
         'Issues') as keyof IssueState;
-      console.log(prevStatus);
       switch (status) {
         case IssueStatusType.BACKLOG: {
-          state.backlogIssues.push({ ...issue, status });
+          state.backlogIssues.splice(hoverIndex, 0, newIssue);
           state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
           break;
         }
         case IssueStatusType.SELECTED: {
-          state.selectedIssues.push({ ...issue, status });
+          state.selectedIssues.splice(hoverIndex, 0, newIssue);
           state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
           break;
         }
         case IssueStatusType.IN_PROGRESS: {
-          state.inProgressIssues.push({ ...issue, status });
+          state.inProgressIssues.splice(hoverIndex, 0, newIssue);
           state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
           break;
         }
         default:
-          state.doneIssues.push({ ...issue, status });
+          state.doneIssues.splice(hoverIndex, 0, newIssue);
           state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
           break;
       }
