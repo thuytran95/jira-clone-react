@@ -19,6 +19,13 @@ export interface UpdateSingleTypeIssuesPayload {
   issues: Issue[];
 }
 
+export interface UpdateHoverIssuePayload {
+  status: IssueStatusType;
+  nextStatus: string;
+  id: string;
+  index: number;
+}
+
 const initialState: IssueState = {
   backlogIssues: [],
   selectedIssues: [],
@@ -78,26 +85,22 @@ const issueSlice = createSlice({
       switch (status) {
         case IssueStatusType.BACKLOG: {
           state.backlogIssues.splice(hoverIndex, 0, newIssue);
-          state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
           break;
         }
         case IssueStatusType.SELECTED: {
-          console.log('selectedF');
           state.selectedIssues.splice(hoverIndex, 0, newIssue);
-          state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
           break;
         }
         case IssueStatusType.IN_PROGRESS: {
           state.inProgressIssues.splice(hoverIndex, 0, newIssue);
-          state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
           break;
         }
         default:
           state.doneIssues.splice(hoverIndex, 0, newIssue);
-          state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
           break;
       }
 
+      state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
       return state;
     },
     updateSingleTypeIssues: (state, action: PayloadAction<UpdateSingleTypeIssuesPayload>) => {
@@ -105,9 +108,42 @@ const issueSlice = createSlice({
       const { status, issues } = payload;
       const prevStatus = (status[0].toLowerCase() + status.slice(1) + 'Issues') as keyof IssueState;
       state[prevStatus] = issues;
+    },
+    updateHoverIssues: (state, action: PayloadAction<UpdateHoverIssuePayload>) => {
+      const { payload } = action;
+      const { index, status, nextStatus, id } = payload;
+      const prevStatus = (status[0].toLowerCase() + status.slice(1) + 'Issues') as keyof IssueState;
+
+      const currentIssue = state[prevStatus].find((item) => item.id === id) as Issue;
+
+      if (currentIssue) {
+        const newIssue = { ...currentIssue, status: nextStatus };
+
+        switch (nextStatus) {
+          case IssueStatusType.BACKLOG: {
+            state.backlogIssues.splice(index, 0, newIssue);
+            break;
+          }
+          case IssueStatusType.SELECTED: {
+            state.selectedIssues.splice(index, 0, newIssue);
+            break;
+          }
+          case IssueStatusType.IN_PROGRESS: {
+            state.inProgressIssues.splice(index, 0, newIssue);
+            break;
+          }
+          default:
+            state.doneIssues.splice(index, 0, newIssue);
+            break;
+        }
+
+        state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== id);
+        return state;
+      }
     }
   }
 });
 
-export const { getIssues, updateIssues, updateSingleTypeIssues } = issueSlice.actions;
+export const { getIssues, updateIssues, updateSingleTypeIssues, updateHoverIssues } =
+  issueSlice.actions;
 export default issueSlice.reducer;

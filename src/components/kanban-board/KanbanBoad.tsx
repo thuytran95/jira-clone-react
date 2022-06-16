@@ -1,7 +1,10 @@
 import { IssueCard } from 'components/issues';
-import { Issue,IssueDropTypes,IssueStatusDisplay,IssueStatusType } from 'interface/issue';
-import { useCallback,useEffect,useState } from 'react';
+import { DragItem } from 'components/issues/issue-card/IssueCard';
+import { Issue, IssueDropTypes, IssueStatusDisplay, IssueStatusType } from 'interface/issue';
+import { useCallback, useEffect, useState } from 'react';
 import { useDrop } from 'react-dnd';
+import { UpdateHoverIssuePayload, updateHoverIssues } from 'redux-utils/issue/issueSlice';
+import { useAppDispatch } from 'store';
 import './kanban-board-item.scss';
 
 export interface KanbanBoardProps {
@@ -11,13 +14,29 @@ export interface KanbanBoardProps {
 
 const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
   const [issueItems, setIssueItems] = useState<Issue[]>([]);
+  const dispatch = useAppDispatch();
+
   const [, drop] = useDrop(() => ({
     accept: IssueDropTypes.ISSUE,
     drop: () => ({ name: status }),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop()
-    })
+    }),
+    hover: (item) => {
+      const itemCollect = item as DragItem;
+      console.log(item);
+      if (itemCollect.issue && itemCollect.status !== itemCollect.issue.status) {
+        const params = {
+          status: itemCollect.status,
+          nextStatus: itemCollect.issue.status,
+          id: itemCollect.id,
+          index: itemCollect.index
+        } as UpdateHoverIssuePayload;
+
+        dispatch(updateHoverIssues(params));
+      }
+    }
   }));
 
   const findIssueCard = useCallback(
@@ -32,6 +51,7 @@ const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
   );
 
   const moveIssueCard = useCallback((dragIndex: number, hoverIndex: number) => {
+    // console.log('movecard')
     setIssueItems((prevIssues: Issue[]) => {
       const newIssues = [...prevIssues];
       const prevIssue = { ...prevIssues[hoverIndex] };

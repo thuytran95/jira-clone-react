@@ -1,12 +1,12 @@
+import type { Identifier } from 'dnd-core';
 import { Issue, IssueDropTypes, IssuePriority, IssueStatusType } from 'interface/issue';
 import { User } from 'interface/user';
 import { memo, useEffect, useRef, useState } from 'react';
-import { useDrag, useDrop } from 'react-dnd';
+import { DragLayerMonitor, useDrag, useDrop } from 'react-dnd';
+import { updateIssues, UpdateIssuesPayload } from 'redux-utils/issue/issueSlice';
 import { useAppDispatch, useAppSelector } from 'store';
 import { IssueUtils } from 'utils/issue';
-import type { Identifier } from 'dnd-core';
 import './issue-card.scss';
-import { updateIssues, UpdateIssuesPayload } from 'redux-utils/issue/issueSlice';
 
 interface IssueCardProps {
   issue: Issue;
@@ -22,6 +22,7 @@ export interface DragItem {
   type: string;
   issue: Issue;
   hoverIndex: number;
+  status: IssueStatusType;
 }
 
 const IssueCard = ({ issue, index, moveIssueCard, status }: IssueCardProps) => {
@@ -71,7 +72,7 @@ const IssueCard = ({ issue, index, moveIssueCard, status }: IssueCardProps) => {
   const [{ isDragging }, drag] = useDrag({
     type: IssueDropTypes.ISSUE,
     item: () => {
-      return { id: issue.id, index, issue: issue };
+      return { id: issue.id, index, issue: issue, status };
     },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult<any>();
@@ -85,12 +86,12 @@ const IssueCard = ({ issue, index, moveIssueCard, status }: IssueCardProps) => {
         dispatch(updateIssues(params));
       }
     },
-    collect: (monitor: any) => ({
+    collect: (monitor: DragLayerMonitor) => ({
       isDragging: monitor.isDragging()
     })
   });
   useEffect(() => {
-    const listUser = project.users.filter((user) => issue.userIds.includes(user.id)) as User[];
+    const listUser = project.users.filter((user) => issue?.userIds?.includes(user.id)) as User[];
     setMembers(listUser);
   }, [issue]);
 
