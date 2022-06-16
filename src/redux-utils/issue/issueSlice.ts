@@ -14,6 +14,11 @@ export interface UpdateIssuesPayload {
   hoverIndex: number;
 }
 
+export interface UpdateSingleTypeIssuesPayload {
+  status: IssueStatusType;
+  issues: Issue[];
+}
+
 const initialState: IssueState = {
   backlogIssues: [],
   selectedIssues: [],
@@ -62,13 +67,14 @@ const issueSlice = createSlice({
     },
     updateIssues: (state, action: PayloadAction<UpdateIssuesPayload>) => {
       const { payload } = action;
-      const { status, issue , hoverIndex} = payload;
-      const newIssue = {...issue, status};
+      const { status, issue, hoverIndex } = payload;
+      const newIssue = { ...issue, status };
 
       const issueStatus = issue.status as string;
       const prevStatus = (issueStatus[0].toLowerCase() +
         issueStatus.slice(1) +
         'Issues') as keyof IssueState;
+
       switch (status) {
         case IssueStatusType.BACKLOG: {
           state.backlogIssues.splice(hoverIndex, 0, newIssue);
@@ -76,6 +82,7 @@ const issueSlice = createSlice({
           break;
         }
         case IssueStatusType.SELECTED: {
+          console.log('selectedF');
           state.selectedIssues.splice(hoverIndex, 0, newIssue);
           state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
           break;
@@ -92,9 +99,15 @@ const issueSlice = createSlice({
       }
 
       return state;
+    },
+    updateSingleTypeIssues: (state, action: PayloadAction<UpdateSingleTypeIssuesPayload>) => {
+      const { payload } = action;
+      const { status, issues } = payload;
+      const prevStatus = (status[0].toLowerCase() + status.slice(1) + 'Issues') as keyof IssueState;
+      state[prevStatus] = issues;
     }
   }
 });
 
-export const { getIssues, updateIssues } = issueSlice.actions;
+export const { getIssues, updateIssues, updateSingleTypeIssues } = issueSlice.actions;
 export default issueSlice.reducer;

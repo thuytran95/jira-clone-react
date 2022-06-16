@@ -1,7 +1,6 @@
 import { IssueCard } from 'components/issues';
-import { DragItem } from 'components/issues/issue-card/IssueCard';
-import { Issue, IssueDropTypes, IssueStatusDisplay, IssueStatusType } from 'interface/issue';
-import React, { useCallback, useEffect, useState } from 'react';
+import { Issue,IssueDropTypes,IssueStatusDisplay,IssueStatusType } from 'interface/issue';
+import { useCallback,useEffect,useState } from 'react';
 import { useDrop } from 'react-dnd';
 import './kanban-board-item.scss';
 
@@ -18,10 +17,7 @@ const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop()
-    }),
-    hover: (item, monitor) =>  {
-      console.log(item);
-    },
+    })
   }));
 
   const findIssueCard = useCallback(
@@ -54,7 +50,7 @@ const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
     <div className="kanban__board__item" ref={drop}>
       <h5 className="kanban__board__title">{`${IssueStatusDisplay[status]} ${issues.length}`}</h5>
       {issueItems?.map((issue, index) => {
-        if(issue){
+        if (issue) {
           return (
             <IssueCard
               key={issue.id}
@@ -62,10 +58,10 @@ const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
               index={index}
               findIssueCard={findIssueCard}
               moveIssueCard={moveIssueCard}
+              status={status}
             />
           );
         }
-       
       })}
     </div>
   );

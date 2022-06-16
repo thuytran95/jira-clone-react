@@ -1,10 +1,10 @@
-import { Issue, IssueDropTypes, IssuePriority } from 'interface/issue';
+import { Issue, IssueDropTypes, IssuePriority, IssueStatusType } from 'interface/issue';
 import { User } from 'interface/user';
 import { memo, useEffect, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useAppDispatch, useAppSelector } from 'store';
 import { IssueUtils } from 'utils/issue';
-import type { Identifier, XYCoord } from 'dnd-core';
+import type { Identifier } from 'dnd-core';
 import './issue-card.scss';
 import { updateIssues, UpdateIssuesPayload } from 'redux-utils/issue/issueSlice';
 
@@ -13,6 +13,7 @@ interface IssueCardProps {
   index: number;
   moveIssueCard: (dragIndex: number, hoverIndex: number) => void;
   findIssueCard: (id: string) => { index: number };
+  status: IssueStatusType;
 }
 
 export interface DragItem {
@@ -23,7 +24,7 @@ export interface DragItem {
   hoverIndex: number;
 }
 
-const IssueCard = ({ issue, index, moveIssueCard }: IssueCardProps) => {
+const IssueCard = ({ issue, index, moveIssueCard, status }: IssueCardProps) => {
   const [members, setMembers] = useState<User[]>([]);
   const { project } = useAppSelector((state) => state.project);
   const priority = issue.priority as IssuePriority;
@@ -38,51 +39,30 @@ const IssueCard = ({ issue, index, moveIssueCard }: IssueCardProps) => {
         handlerId: monitor.getHandlerId()
       };
     },
-    hover(item: DragItem, monitor) {
+    hover(item: DragItem) {
       if (!ref.current) {
         return;
       }
       const dragIndex = item.index;
       const hoverIndex = index;
       // Don't replace items with themselves
-      console.log({dragIndex, hoverIndex})
-      if (dragIndex === hoverIndex) {
+
+      const isDifferentStatus = status !== issue.status;
+
+      if (isDifferentStatus) {
+        const params = {
+          status: status,
+          issue,
+          hoverIndex
+        } as UpdateIssuesPayload;
+
+        dispatch(updateIssues(params));
+      } else if (dragIndex !== hoverIndex && !isDifferentStatus) {
+        moveIssueCard(dragIndex, hoverIndex);
+      } else {
         return;
       }
 
-      // Determine rectangle on screen
-      // const hoverBoundingRect = ref.current?.getBoundingClientRect();
-
-      // // Get vertical middle
-      // const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-
-      // // Determine mouse position
-      // const clientOffset = monitor.getClientOffset();
-
-      // // Get pixels to the top
-      // const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
-
-      // // Only perform the move when the mouse has crossed half of the items height
-      // // When dragging downwards, only move when the cursor is below 50%
-      // // When dragging upwards, only move when the cursor is above 50%
-
-      // // Dragging downwards
-      // if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-      //   return;
-      // }
-
-      // // Dragging upwards
-      // if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-      //   return;
-      // }
-
-      // Time to actually perform the action
-      moveIssueCard(dragIndex, hoverIndex);
-
-      // Note: we're mutating the monitor item here!
-      // Generally it's better to avoid mutations,
-      // but it's good here for the sake of performance
-      // to avoid expensive index searches.
       item.index = hoverIndex;
       item.issue = issue;
     }
@@ -97,7 +77,11 @@ const IssueCard = ({ issue, index, moveIssueCard }: IssueCardProps) => {
       const dropResult = monitor.getDropResult<any>();
       const { issue } = item;
       if (issue && dropResult && dropResult.name && issue.status !== dropResult.name) {
-        const params = { status: dropResult.name, issue ,hoverIndex: item.index} as UpdateIssuesPayload;
+        const params = {
+          status: dropResult.name,
+          issue,
+          hoverIndex: item.index
+        } as UpdateIssuesPayload;
         dispatch(updateIssues(params));
       }
     },
