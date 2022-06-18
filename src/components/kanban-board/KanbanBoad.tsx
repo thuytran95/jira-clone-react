@@ -10,12 +10,12 @@ import './kanban-board-item.scss';
 export interface KanbanBoardProps {
   issues: Issue[];
   status: IssueStatusType;
+  handleShowIssue: (issue: Issue) => void;
 }
 
-const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
+const KanbanBoad = ({ issues, status, handleShowIssue }: KanbanBoardProps) => {
   const [issueItems, setIssueItems] = useState<Issue[]>([]);
   const dispatch = useAppDispatch();
-
   const [, drop] = useDrop(() => ({
     accept: IssueDropTypes.ISSUE,
     drop: () => ({ name: status }),
@@ -39,19 +39,7 @@ const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
     }
   }));
 
-  const findIssueCard = useCallback(
-    (id: string) => {
-      const index = issues.findIndex((issue) => issue.id === id);
-      return {
-        issue: issues[index],
-        index: index
-      };
-    },
-    [issues]
-  );
-
   const moveIssueCard = useCallback((dragIndex: number, hoverIndex: number) => {
-    // console.log('movecard')
     setIssueItems((prevIssues: Issue[]) => {
       const newIssues = [...prevIssues];
       const prevIssue = { ...prevIssues[hoverIndex] };
@@ -76,9 +64,9 @@ const KanbanBoad = ({ issues, status }: KanbanBoardProps) => {
               key={issue.id}
               issue={issue}
               index={index}
-              findIssueCard={findIssueCard}
               moveIssueCard={moveIssueCard}
               status={status}
+              handleShowIssue={handleShowIssue}
             />
           );
         }

@@ -1,10 +1,16 @@
 import type { Identifier } from 'dnd-core';
-import { Issue, IssueDropTypes, IssuePriority, IssueStatusType } from 'interface/issue';
+import {
+  Issue,
+  IssueDropTypes,
+  IssuePriority,
+  IssueStatusType,
+  IssueType
+} from 'interface/issue';
 import { User } from 'interface/user';
-import { memo, useEffect, useRef, useState } from 'react';
-import { DragLayerMonitor, useDrag, useDrop } from 'react-dnd';
-import { updateIssues, UpdateIssuesPayload } from 'redux-utils/issue/issueSlice';
-import { useAppDispatch, useAppSelector } from 'store';
+import { memo,useEffect,useRef,useState } from 'react';
+import { DragLayerMonitor,useDrag,useDrop } from 'react-dnd';
+import { updateIssues,UpdateIssuesPayload } from 'redux-utils/issue/issueSlice';
+import { useAppDispatch,useAppSelector } from 'store';
 import { IssueUtils } from 'utils/issue';
 import './issue-card.scss';
 
@@ -12,8 +18,8 @@ interface IssueCardProps {
   issue: Issue;
   index: number;
   moveIssueCard: (dragIndex: number, hoverIndex: number) => void;
-  findIssueCard: (id: string) => { index: number };
   status: IssueStatusType;
+  handleShowIssue: (issue: Issue) => void;
 }
 
 export interface DragItem {
@@ -25,11 +31,13 @@ export interface DragItem {
   status: IssueStatusType;
 }
 
-const IssueCard = ({ issue, index, moveIssueCard, status }: IssueCardProps) => {
+const IssueCard = ({ issue, index, moveIssueCard, status, handleShowIssue }: IssueCardProps) => {
   const [members, setMembers] = useState<User[]>([]);
   const { project } = useAppSelector((state) => state.project);
   const priority = issue.priority as IssuePriority;
   const isuePriorityIcon = IssueUtils.getIssuePriorityIcon(priority);
+  const issueStatusIcon = IssueUtils.getIssueTypeIcon(issue.type as IssueType);
+
   const ref = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
 
@@ -90,6 +98,11 @@ const IssueCard = ({ issue, index, moveIssueCard, status }: IssueCardProps) => {
       isDragging: monitor.isDragging()
     })
   });
+
+  const updateCurrentIssue = () => {
+    handleShowIssue(issue);
+  };
+
   useEffect(() => {
     const listUser = project.users.filter((user) => issue?.userIds?.includes(user.id)) as User[];
     setMembers(listUser);
@@ -100,7 +113,13 @@ const IssueCard = ({ issue, index, moveIssueCard, status }: IssueCardProps) => {
     drag(drop(ref));
 
     return (
-      <div className="issue__card" ref={ref} data-handler-id={handlerId} style={{ opacity }}>
+      <div
+        className="issue__card"
+        ref={ref}
+        data-handler-id={handlerId}
+        style={{ opacity }}
+        onClick={updateCurrentIssue}
+      >
         <div className="issue__card__title">{issue.title}</div>
         <div className="flex items-center">
           {members.slice(0, 3).map((member) => (
@@ -110,10 +129,14 @@ const IssueCard = ({ issue, index, moveIssueCard, status }: IssueCardProps) => {
               style={{ backgroundImage: `url(${member.avatarUrl})` }}
             ></div>
           ))}
-          <span className="issue__category uppercase ml-3 text-sm">{`${issue.type} - ${issue.id}`}</span>
+          <span className="issue__category uppercase ml-3 text-sm flex items-center justify-center">{`${issue.type} - ${issue.id}`}</span>
           <div className="flex items-center ml-auto">
-            <span className="issue__icon story-icon base-tooltip" data-content="Story">
-              <i className="fa fa-bookmark"></i>
+            <span
+              className={`issue__icon story-icon base-tooltip`}
+              data-content={issueStatusIcon.value}
+              style={{ backgroundColor: issueStatusIcon.color }}
+            >
+              <i className={issueStatusIcon.icon}></i>
             </span>
 
             <span

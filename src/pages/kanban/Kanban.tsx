@@ -1,43 +1,42 @@
 import { IssueModal } from 'components/issues';
+import { ModalHandle } from 'components/issues/issue-modal/IssueModal';
 import KanbanBoad from 'components/kanban-board/KanbanBoad';
-import { Issue,IssueStatusType } from 'interface/issue';
-import { useEffect,useState } from 'react';
+import { Issue, IssueStatusType, IssueType } from 'interface/issue';
+import { IssueTypeIcon } from 'interface/issue-type-icon';
+import { useEffect, useRef, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { getIssues } from 'redux-utils/issue/issueSlice';
-import { useAppDispatch,useAppSelector } from 'store';
+import { useAppDispatch, useAppSelector } from 'store';
+import { IssueUtils } from 'utils/issue';
 import './kanban.scss';
 
+export interface IssueWithIcon extends Issue {
+  typeIcon: IssueTypeIcon;
+}
+
 const Kanban = () => {
-  const [showIssue, setShowIssue] = useState<Issue | null>(null);
+  const [showIssue, setShowIssue] = useState<IssueWithIcon | null>(null);
   const { project } = useAppSelector((state) => state.project);
   const { doneIssues, selectedIssues, inProgressIssues, backlogIssues } = useAppSelector(
     (state) => state.issue
   );
   const dispatch = useAppDispatch();
+  const modalIssue = useRef<ModalHandle>(null);
 
-  const handleShowIssue = () => {
-    const issue = {
-      createdAt: '2020-08-27T14:23:38.183Z',
-      description:
-        "<p>I shared some of my technical decisions behind <a href='http://jira.trungk18.com' rel='noopener noreferrer' target='_blank'>jira.trungk18.com</a> on <a href='https://github.com/SingaporeJS/talk.js/issues/40' rel='noopener noreferrer' target='_blank'>Singapore talk.js August 2020</a> with a very catchy title - <strong>Behind the 900 stars repository 😂</strong> Do you like it? </p><p><br></p><p> Hopefully I can change the title to a thousand stars soon... 🤣</p><p><br></p><p>Thanks for having me!</p><p><br></p><p>See the </p><ul><li>Slide deck ➡ <a href='https://slides.com/tuantrungvo/behind-the-900-star-repository-jira-clone-angular' rel='noopener noreferrer' target='_blank' style='background-color: rgb(255, 255, 255);'>https://slides.com/tuantrungvo/behind-the-900-star-repository-jira-clone-angular</a></li><li><span style='background-color: rgb(255, 255, 255);'>Recorded talk:  </span><a href='https://youtu.be/X_beeihKk7o' rel='noopener noreferrer' target='_blank'>https://youtu.be/X_beeihKk7o</a></li></ul><p><br></p><p><img src='https://pbs.twimg.com/media/EgWe01qUcAIoNdi?format=jpg&amp;name=large' alt='Image'></p><p><br></p>",
-      id: '6527',
-      priority: 'Medium',
-      reporterId: 'd65047e5-f4cf-4caa-9a38-6073dcbab7d1',
-      status: 'Done',
-      title: 'Behind the 900 stars - Update 08/2020',
-      type: 'Story',
-      updatedAt: '2020-08-27T14:23:38.183Z',
-      userIds: ['d65047e5-f4cf-4caa-9a38-6073dcbab7d1'],
-      listPosition: 1
-    };
-    setShowIssue(issue);
+  const handleShowIssue = (issue: Issue) => {
+    const type = issue.type as IssueType;
+    const typeIcon = IssueUtils.getIssueTypeIcon(type);
+    setShowIssue({ ...issue, typeIcon });
+
+    if (modalIssue.current) {
+      modalIssue.current.handleShow();
+    }
   };
 
   useEffect(() => {
     dispatch(getIssues(project));
   }, []);
-
 
   return (
     <div className="kanban h-100">
@@ -76,14 +75,30 @@ const Kanban = () => {
 
       <div className="kanban__board flex mt-7">
         <DndProvider backend={HTML5Backend}>
-          <KanbanBoad status={IssueStatusType.BACKLOG} issues={backlogIssues} />
-          <KanbanBoad status={IssueStatusType.SELECTED} issues={selectedIssues} />
-          <KanbanBoad status={IssueStatusType.IN_PROGRESS} issues={inProgressIssues} />
-          <KanbanBoad status={IssueStatusType.DONE} issues={doneIssues} />
+          <KanbanBoad
+            status={IssueStatusType.BACKLOG}
+            issues={backlogIssues}
+            handleShowIssue={handleShowIssue}
+          />
+          <KanbanBoad
+            status={IssueStatusType.SELECTED}
+            issues={selectedIssues}
+            handleShowIssue={handleShowIssue}
+          />
+          <KanbanBoad
+            status={IssueStatusType.IN_PROGRESS}
+            issues={inProgressIssues}
+            handleShowIssue={handleShowIssue}
+          />
+          <KanbanBoad
+            status={IssueStatusType.DONE}
+            issues={doneIssues}
+            handleShowIssue={handleShowIssue}
+          />
         </DndProvider>
       </div>
 
-      <IssueModal />
+      <IssueModal showIssue={showIssue} ref={modalIssue} />
     </div>
   );
 };
