@@ -1,7 +1,4 @@
 .issue__modal {
-  &__header {
-  }
-
   &__btn {
     @apply text-textMedium bg-white px-3 py-1 hover:bg-backgroundLight;
     border-radius: 0.125rem;
@@ -13,6 +10,39 @@
     &:hover {
       > span {
         text-decoration: underline;
+      }
+    }
+  }
+
+  &__editor {
+    padding: 0 16px;
+  }
+  &__editor__wrapper {
+    border: 1px solid #dfe1e6;
+  }
+  &__toolbar {
+    border: none !important;
+    border-bottom: 1px solid #dfe1e6 !important;
+  }
+
+  .btn-primary:not(:disabled):not(.disabled):active,
+  .show > .btn-primary.dropdown-toggle {
+    @apply bg-backgroundMedium;
+    box-shadow: unset;
+  }
+
+  .quill {
+    &.disable {
+      .ql-toolbar.ql-snow {
+        display: none !important;
+      }
+
+      .ql-container.ql-snow {
+        border: none !important;
+      }
+
+      .ql-editor {
+        padding: 0 !important;
       }
     }
   }

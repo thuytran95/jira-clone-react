@@ -140,10 +140,57 @@ const issueSlice = createSlice({
         state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== id);
         return state;
       }
+    },
+    updateIssue: (state, action) => {
+      const { payload: issue } = action;
+
+      if (issue.prevStatus) {
+        const prevStatus = (issue.prevStatus[0].toLowerCase() +
+          issue.prevStatus.slice(1) +
+          'Issues') as keyof IssueState;
+        const newStatus = (issue.status[0].toLowerCase() +
+          issue.status.slice(1) +
+          'Issues') as keyof IssueState;
+
+        const currentIssue = state[prevStatus].find((item) => item.id === issue.id) as Issue;
+        state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
+        state[newStatus] = [...state[newStatus], { ...currentIssue, status: issue.status }];
+        return state;
+      }
+
+      switch (issue.status) {
+        case IssueStatusType.BACKLOG: {
+          state.backlogIssues = state.backlogIssues.map((item) => {
+            if (item.id !== issue.id) return { ...item };
+            return issue;
+          });
+          return state;
+        }
+        case IssueStatusType.SELECTED: {
+          state.selectedIssues = state.selectedIssues.map((item) => {
+            if (item.id !== issue.id) return { ...item };
+            return issue;
+          });
+          return state;
+        }
+        case IssueStatusType.IN_PROGRESS: {
+          state.inProgressIssues = state.inProgressIssues.map((item) => {
+            if (item.id !== issue.id) return { ...item };
+            return issue;
+          });
+          return state;
+        }
+        default:
+          state.doneIssues = state.doneIssues.map((item) => {
+            if (item.id !== issue.id) return { ...item };
+            return { ...item, ...issue };
+          });
+          return state;
+      }
     }
   }
 });
 
-export const { getIssues, updateIssues, updateSingleTypeIssues, updateHoverIssues } =
+export const { getIssues, updateIssues, updateSingleTypeIssues, updateHoverIssues, updateIssue } =
   issueSlice.actions;
 export default issueSlice.reducer;

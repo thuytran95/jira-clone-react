@@ -1,7 +1,23 @@
-import React from 'react';
+import { User } from 'interface/user';
+import { IssueWithIcon } from 'pages/kanban/Kanban';
+import React, { useEffect, useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
+import { useAppSelector } from 'store';
 
-const IssueReporter = () => {
+interface IssueReporterProps {
+  issue: IssueWithIcon;
+}
+
+const IssueReporter = ({ issue }: IssueReporterProps) => {
+  const { project } = useAppSelector((state) => state.project);
+  const { users } = project;
+  const [reporter, setReporter] = useState<User | null>(null);
+
+  useEffect(() => {
+    const currentReporter = users?.find((user) => user.id === issue.reporterId) || null;
+    setReporter(currentReporter);
+  }, [project, issue]);
+
   return (
     <div className="status">
       <div className="text-textMedium text-sm uppercase font-bold mt-6 mb-1">Reporter</div>
@@ -10,40 +26,30 @@ const IssueReporter = () => {
           <span className="flex items-center">
             <span
               className="issue__avatar issue__avatar--w20 mr-2"
-              style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
+              style={{ backgroundImage: `url(${reporter?.avatarUrl})` }}
             ></span>
-            <span className="text-textMedium text-sm">Thuy Tran</span>
+            <span className="text-textMedium text-sm">{reporter?.name}</span>
           </span>
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
-          <Dropdown.Item href="#/action-1">
-            <span className="flex items-center">
-              <span
-                className="issue__avatar issue__avatar--w20 mr-2"
-                style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
-              ></span>
-              <span className="text-textMedium text-sm">Thuy Tran</span>
-            </span>
-          </Dropdown.Item>
-          <Dropdown.Item href="#/action-2">
-            <span className="flex items-center">
-              <span
-                className="issue__avatar issue__avatar--w20 mr-2"
-                style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
-              ></span>
-              <span className="text-textMedium text-sm">Thuy Tran</span>
-            </span>
-          </Dropdown.Item>
-          <Dropdown.Item href="#/action-3">
-            <span className="flex items-center">
-              <span
-                className="issue__avatar issue__avatar--w20 mr-2"
-                style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
-              ></span>
-              <span className="text-textMedium text-sm">Thuy Tran</span>
-            </span>
-          </Dropdown.Item>
+          {users.map((user) => {
+            if (user.id !== reporter?.id) {
+              return (
+                <Dropdown.Item key={user.id}>
+                  <span className="flex items-center">
+                    <span
+                      className="issue__avatar issue__avatar--w20 mr-2"
+                      style={{ backgroundImage: 'url("https://picsum.photos/200/300")' }}
+                    ></span>
+                    <span className="text-textMedium text-sm">Thuy Tran</span>
+                  </span>
+                </Dropdown.Item>
+              );
+            }
+
+            return null;
+          })}
         </Dropdown.Menu>
       </Dropdown>
     </div>

@@ -17,6 +17,7 @@ export interface IssueWithIcon extends Issue {
 
 const Kanban = () => {
   const [showIssue, setShowIssue] = useState<IssueWithIcon | null>(null);
+  const [show, setShow] = useState<boolean>(false);
   const { project } = useAppSelector((state) => state.project);
   const { doneIssues, selectedIssues, inProgressIssues, backlogIssues } = useAppSelector(
     (state) => state.issue
@@ -28,10 +29,12 @@ const Kanban = () => {
     const type = issue.type as IssueType;
     const typeIcon = IssueUtils.getIssueTypeIcon(type);
     setShowIssue({ ...issue, typeIcon });
+    setShow(true);
+  };
 
-    if (modalIssue.current) {
-      modalIssue.current.handleShow();
-    }
+  const onHideModal = () => {
+    setShow(false);
+    setShowIssue(null);
   };
 
   useEffect(() => {
@@ -98,7 +101,7 @@ const Kanban = () => {
         </DndProvider>
       </div>
 
-      <IssueModal showIssue={showIssue} ref={modalIssue} />
+      <IssueModal showIssue={showIssue} ref={modalIssue} onHideModal={onHideModal} show={show}/>
     </div>
   );
 };

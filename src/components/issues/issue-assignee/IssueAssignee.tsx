@@ -1,7 +1,12 @@
+import { IssueWithIcon } from 'pages/kanban/Kanban';
 import React from 'react';
 import { Dropdown } from 'react-bootstrap';
 
-const IssueAssignee = () => {
+interface IssueAssigneeProps {
+  issue: IssueWithIcon;
+}
+
+const IssueAssignee = ({ issue }: IssueAssigneeProps) => {
   return (
     <>
       <div className="text-textMedium text-sm uppercase font-bold mt-6 mb-1">ASSIGNEES</div>

@@ -1,13 +1,18 @@
 import { IssuePriority } from 'interface/issue';
 import { IssuePriorityIcon } from 'interface/issue-priority-icon';
+import { IssueWithIcon } from 'pages/kanban/Kanban';
 import { useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { PROJECT_ISSUE_PRIORITIES } from 'utils/constants';
 import './issue-priority.scss';
 
-const IssuePriorities = () => {
+interface IssueAssigneeProps {
+  issue: IssueWithIcon;
+}
+
+const IssuePriorities = ({ issue }: IssueAssigneeProps) => {
   const [currentPriority, setCurrentPriority] = useState<IssuePriorityIcon>(
-    new IssuePriorityIcon(IssuePriority.HIGHEST)
+    new IssuePriorityIcon(issue.priority as IssuePriority)
   );
 
   const handleChangePriority = (priority: IssuePriorityIcon) => {
