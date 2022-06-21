@@ -8,7 +8,7 @@ export interface Project {
     description: string;
     category?: string;
     createdAt: string;
-    updatedAt: string; 
+    updatedAt: string;
     users : User[];
     issues: Issue[]
 }

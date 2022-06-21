@@ -25,7 +25,6 @@ const KanbanBoad = ({ issues, status, handleShowIssue }: KanbanBoardProps) => {
     }),
     hover: (item) => {
       const itemCollect = item as DragItem;
-      console.log(item);
       if (itemCollect.issue && itemCollect.status !== itemCollect.issue.status) {
         const params = {
           status: itemCollect.status,

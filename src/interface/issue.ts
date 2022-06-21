@@ -62,6 +62,8 @@ export interface Issue {
   type: IssueType[keyof IssueType];
   userIds: string[];
   listPosition: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IssueStatusWithTitle {
@@ -75,5 +77,5 @@ export interface IssueTypeWitfhIcon {
 }
 
 export const IssueDropTypes = {
-  ISSUE: "issue"
-}
+  ISSUE: 'issue'
+};
