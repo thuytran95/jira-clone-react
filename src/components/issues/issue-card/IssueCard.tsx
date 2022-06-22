@@ -119,6 +119,7 @@ const IssueCard = ({ issue, index, moveIssueCard, status, handleShowIssue }: Iss
         data-handler-id={handlerId}
         style={{ opacity }}
         onClick={updateCurrentIssue}
+        data-testid={`issue__card${issue.id}`}
       >
         <div className="issue__card__title">{issue.title}</div>
         <div className="flex items-center">
