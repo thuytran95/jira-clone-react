@@ -1,7 +1,8 @@
 import { Issue, IssueType } from 'interface/issue';
 import React, { useEffect, useState, useTransition } from 'react';
 import { Modal } from 'react-bootstrap';
-import { useAppSelector } from 'store';
+import { editIssue } from 'redux-utils/issue/issueSlice';
+import { useAppDispatch, useAppSelector } from 'store';
 import { IssueUtils } from 'utils/issue';
 import './issue-search.scss';
 
@@ -10,39 +11,61 @@ interface IssueSearchProps {
   handleToggleModal: () => void;
 }
 
-const issueList = [...new Array(5)].fill(1).map((item, index) => ({ id: index }));
+const filterIssues = (filterInput: string, issueList: Issue[]) => {
+  if (!filterInput) {
+    return [...issueList]
+      .sort(
+        (a: Issue, b: Issue) => new Date(b.updatedAt).valueOf() - new Date(a.createdAt).valueOf()
+      )
+      .slice(0, 4);
+  }
+  return issueList.filter(
+    (issue: Issue) =>
+      issue.description.toLowerCase().includes(filterInput) ||
+      issue.title.toLowerCase().includes(filterInput) ||
+      issue.type.toString().toLowerCase().includes(filterInput)
+  );
+};
 
 const IssueSearch = ({ show, handleToggleModal }: IssueSearchProps) => {
   const { project } = useAppSelector((state) => state.project);
   const [recentIssues, setRecentIssues] = useState<Issue[]>([]);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const [input, setInput] = useState<string>('');
-
-  useEffect(() => {
-    const issues = [...project.issues].sort(
-      (a: Issue, b: Issue) => new Date(b.updatedAt).valueOf() - new Date(a.createdAt).valueOf()
-    );
-
-    setRecentIssues(issues.slice(0, 4));
-  }, [project]);
+  const dispatch = useAppDispatch();
 
   const handleSearch: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     startTransition(() => {
-      setInput(e.target.value.trim());
+      setInput(e.target.value.trim().toLocaleLowerCase());
     });
   };
 
+  const handleEditIssue = (issue: Issue) => {
+    const type = issue.type as IssueType;
+    const typeIcon = IssueUtils.getIssueTypeIcon(type);
+    const newIssue = { ...issue, typeIcon };
+    dispatch(editIssue(newIssue));
+    handleToggleModal();
+  };
+
   useEffect(() => {
-    console.log(input);
+    const newIssue = filterIssues(input, project.issues) as Issue[];
+    setRecentIssues(newIssue);
   }, [input]);
 
+  useEffect(() => {
+    if (!show) {
+      setInput('');
+    }
+  }, [show]);
+
   return (
-    <Modal className="issue__search" show={show} onHide={handleToggleModal}>
+    <Modal className="issue__search " show={show} onHide={handleToggleModal}>
       <Modal.Body className="p-6">
         <div className="issue__search__header text-textMedium mb-10">
           <input
             className="issue__search__input py-2 "
-            placeholder="Search issue by summary, description..."
+            placeholder="Search issue by title, description, progress..."
             autoFocus
             onChange={handleSearch}
           />
@@ -59,6 +82,7 @@ const IssueSearch = ({ show, handleToggleModal }: IssueSearchProps) => {
                 <div
                   key={issue.id}
                   className="flex items-center px-3 py-1 hover:bg-backgroundLight cursor-pointer select-none ease-in duration-100"
+                  onClick={() => handleEditIssue(issue)}
                 >
                   <span
                     className="issue__icon story-icon flex-shrink-0"

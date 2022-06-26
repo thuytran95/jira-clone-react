@@ -2,9 +2,8 @@ import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import ReactQuill from 'react-quill';
 
-import { IssueWithIcon } from 'pages/kanban/Kanban';
-import { updateIssue } from 'redux-utils/issue/issueSlice';
-import { useAppDispatch } from 'store';
+import { editIssue, updateIssue } from 'redux-utils/issue/issueSlice';
+import { useAppDispatch, useAppSelector } from 'store';
 import IssueAssignee from '../issue-assignee/IssueAssignee';
 import IssueComment from '../issue-comment/IssueComment';
 import IssuePriority from '../issue-priority/IssuePriority';
@@ -18,9 +17,6 @@ export type ModalHandle = {
 
 interface ModalProps {
   ref: ModalHandle;
-  showIssue: IssueWithIcon | null;
-  show: boolean;
-  onHideModal: () => void;
 }
 
 const toolbarOptions = [
@@ -40,12 +36,13 @@ const modules = {
   toolbar: toolbarOptions
 };
 
-const IssueModal = ({ showIssue, show, onHideModal }: ModalProps, ref: React.Ref<ModalHandle>) => {
+const IssueModal = (props: ModalProps, ref: React.Ref<ModalHandle>) => {
   const [description, setDescription] = useState<string>('');
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const quillRef = useRef<ReactQuill | null>(null);
   const descriptionRef = useRef<string>('');
+  const { showModal, issueEdit } = useAppSelector((state) => state.issue);
   // useImperativeHandle(ref, () => ({
   //   handleShow: () => setShow(!show)
   // }));
@@ -55,13 +52,13 @@ const IssueModal = ({ showIssue, show, onHideModal }: ModalProps, ref: React.Ref
   };
 
   const handleCancel = () => {
-    setDescription(showIssue?.description || '');
+    setDescription(issueEdit?.description || '');
     setIsEdit(false);
   };
 
   const onSave = () => {
-    if (showIssue) {
-      const { id } = showIssue;
+    if (issueEdit) {
+      const { id } = issueEdit;
       dispatch(updateIssue({ id, description: descriptionRef.current }));
       setIsEdit(false);
       setDescription(descriptionRef.current);
@@ -72,32 +69,36 @@ const IssueModal = ({ showIssue, show, onHideModal }: ModalProps, ref: React.Ref
     setIsEdit(!isEdit);
   };
 
+  const onHideModal = () => {
+    dispatch(editIssue(null));
+  };
+
   useEffect(() => {
-    if (showIssue) {
-      setDescription(showIssue.description || '');
+    if (issueEdit) {
+      setDescription(issueEdit.description || '');
     }
-  }, [showIssue]);
+  }, [issueEdit]);
 
   return (
     <Modal
-      show={show}
+      show={showModal}
       className="issue__modal"
       size="lg"
       dialogClassName="modal-90w"
       onHide={onHideModal}
     >
-      {showIssue && (
+      {issueEdit && (
         <>
           <Modal.Header className="issue__modal__header p-[24px]">
             <div className="flex items-center">
               <span
                 className="issue__icon story-icon"
-                style={{ backgroundColor: showIssue?.typeIcon?.color }}
+                style={{ backgroundColor: issueEdit?.typeIcon?.color }}
               >
-                <i className={showIssue?.typeIcon?.icon}></i>
+                <i className={issueEdit?.typeIcon?.icon}></i>
               </span>
               <span className="uppercase font-semibold text-textMedium text-sm">
-                {showIssue?.typeIcon.value}
+                {issueEdit?.typeIcon.value}
               </span>
             </div>
             <div className="issue__modal__action ml-auto">
@@ -116,7 +117,7 @@ const IssueModal = ({ showIssue, show, onHideModal }: ModalProps, ref: React.Ref
             <div className="flex w-full flex-wrap pb-16">
               <div className="md:full lg:w-4/6 pr-10">
                 <h3 className="text-2xl font-semibold h-[42px] leading-tight">
-                  {showIssue?.title}
+                  {issueEdit?.title}
                 </h3>
                 <div className="pt-4 pb-2 text-15 font-medium">Description</div>
                 {isEdit ? (
@@ -163,15 +164,15 @@ const IssueModal = ({ showIssue, show, onHideModal }: ModalProps, ref: React.Ref
                   </div>
                 )}
 
-                <IssueComment issue={showIssue} />
+                <IssueComment issue={issueEdit} />
               </div>
               <div className="md-full lg:w-2/6">
-                <IssueStatus issue={showIssue} />
-                <IssueReporter issue={showIssue} />
+                <IssueStatus issue={issueEdit} />
+                <IssueReporter issue={issueEdit} />
                 <div className="status">
-                  <IssueAssignee issue={showIssue} />
+                  <IssueAssignee issue={issueEdit} />
                 </div>
-                <IssuePriority issue={showIssue} />
+                <IssuePriority issue={issueEdit} />
               </div>
             </div>
           </Modal.Body>

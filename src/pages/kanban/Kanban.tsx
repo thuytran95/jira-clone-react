@@ -3,10 +3,10 @@ import { ModalHandle } from 'components/issues/issue-modal/IssueModal';
 import KanbanBoad from 'components/kanban-board/KanbanBoad';
 import { Issue, IssueStatusType, IssueType } from 'interface/issue';
 import { IssueTypeIcon } from 'interface/issue-type-icon';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { getIssues } from 'redux-utils/issue/issueSlice';
+import { editIssue, getIssues } from 'redux-utils/issue/issueSlice';
 import { useAppDispatch, useAppSelector } from 'store';
 import { IssueUtils } from 'utils/issue';
 import './kanban.scss';
@@ -16,8 +16,6 @@ export interface IssueWithIcon extends Issue {
 }
 
 const Kanban = () => {
-  const [showIssue, setShowIssue] = useState<IssueWithIcon | null>(null);
-  const [show, setShow] = useState<boolean>(false);
   const { project } = useAppSelector((state) => state.project);
   const { doneIssues, selectedIssues, inProgressIssues, backlogIssues } = useAppSelector(
     (state) => state.issue
@@ -28,13 +26,8 @@ const Kanban = () => {
   const handleShowIssue = (issue: Issue) => {
     const type = issue.type as IssueType;
     const typeIcon = IssueUtils.getIssueTypeIcon(type);
-    setShowIssue({ ...issue, typeIcon });
-    setShow(true);
-  };
-
-  const onHideModal = () => {
-    setShow(false);
-    setShowIssue(null);
+    const newIssue = { ...issue, typeIcon };
+    dispatch(editIssue(newIssue));
   };
 
   useEffect(() => {
@@ -101,7 +94,7 @@ const Kanban = () => {
         </DndProvider>
       </div>
 
-      <IssueModal showIssue={showIssue} ref={modalIssue} onHideModal={onHideModal} show={show}/>
+      <IssueModal ref={modalIssue} />
     </div>
   );
 };

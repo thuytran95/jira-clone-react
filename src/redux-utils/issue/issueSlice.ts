@@ -1,11 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Issue, IssueStatusType } from 'interface/issue';
+import { IssueWithIcon } from 'pages/kanban/Kanban';
+
+type IssueListType = 'backlogIssues' | 'selectedIssues' | 'inProgressIssues' | 'doneIssues';
 
 export interface IssueState {
   backlogIssues: Issue[];
   selectedIssues: Issue[];
   inProgressIssues: Issue[];
   doneIssues: Issue[];
+  issueEdit: IssueWithIcon | null;
+  showModal: boolean;
 }
 
 export interface UpdateIssuesPayload {
@@ -30,7 +35,9 @@ const initialState: IssueState = {
   backlogIssues: [],
   selectedIssues: [],
   inProgressIssues: [],
-  doneIssues: []
+  doneIssues: [],
+  issueEdit: null,
+  showModal: false
 };
 
 const issueSlice = createSlice({
@@ -80,7 +87,7 @@ const issueSlice = createSlice({
       const issueStatus = issue.status as string;
       const prevStatus = (issueStatus[0].toLowerCase() +
         issueStatus.slice(1) +
-        'Issues') as keyof IssueState;
+        'Issues') as IssueListType;
 
       switch (status) {
         case IssueStatusType.BACKLOG: {
@@ -106,15 +113,15 @@ const issueSlice = createSlice({
     updateSingleTypeIssues: (state, action: PayloadAction<UpdateSingleTypeIssuesPayload>) => {
       const { payload } = action;
       const { status, issues } = payload;
-      const prevStatus = (status[0].toLowerCase() + status.slice(1) + 'Issues') as keyof IssueState;
+      const prevStatus = (status[0].toLowerCase() + status.slice(1) + 'Issues') as IssueListType;
       state[prevStatus] = issues;
     },
     updateHoverIssues: (state, action: PayloadAction<UpdateHoverIssuePayload>) => {
       const { payload } = action;
       const { index, status, nextStatus, id } = payload;
-      const prevStatus = (status[0].toLowerCase() + status.slice(1) + 'Issues') as keyof IssueState;
+      const prevStatus = (status[0].toLowerCase() + status.slice(1) + 'Issues') as IssueListType;
 
-      const currentIssue = state[prevStatus].find((item) => item.id === id) as Issue;
+      const currentIssue = state[prevStatus].find((item: Issue) => item.id === id) as Issue;
 
       if (currentIssue) {
         const newIssue = { ...currentIssue, status: nextStatus };
@@ -147,12 +154,12 @@ const issueSlice = createSlice({
       if (issue.prevStatus) {
         const prevStatus = (issue.prevStatus[0].toLowerCase() +
           issue.prevStatus.slice(1) +
-          'Issues') as keyof IssueState;
-        const newStatus = (issue.status[0].toLowerCase() +
+          'Issues') as IssueListType;
+        const newStatus = (issue.status[0].toString.toLowerCase() +
           issue.status.slice(1) +
-          'Issues') as keyof IssueState;
+          'Issues') as IssueListType;
 
-        const currentIssue = state[prevStatus].find((item) => item.id === issue.id) as Issue;
+        const currentIssue = state[prevStatus].find((item: Issue) => item.id === issue.id) as Issue;
         state[prevStatus] = [...state[prevStatus]].filter((item) => item.id !== issue.id);
         state[newStatus] = [...state[newStatus], { ...currentIssue, status: issue.status }];
         return state;
@@ -187,10 +194,22 @@ const issueSlice = createSlice({
           });
           return state;
       }
+    },
+    editIssue: (state, action) => {
+      const issue = action.payload;
+      state.showModal = issue ? true : false;
+      state.issueEdit = issue;
+      return state;
     }
   }
 });
 
-export const { getIssues, updateIssues, updateSingleTypeIssues, updateHoverIssues, updateIssue } =
-  issueSlice.actions;
+export const {
+  getIssues,
+  updateIssues,
+  updateSingleTypeIssues,
+  updateHoverIssues,
+  updateIssue,
+  editIssue
+} = issueSlice.actions;
 export default issueSlice.reducer;
