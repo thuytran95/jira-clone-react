@@ -1,25 +1,20 @@
-import { Issue, IssueStatusDisplay, IssueStatusType, IssueStatusWithTitle } from 'interface/issue';
-import { useState } from 'react';
+import { IssueStatusDisplay, IssueStatusType, IssueStatusWithTitle } from 'interface/issue';
+import { IssueWithIcon } from 'pages/kanban/Kanban';
 import { Dropdown } from 'react-bootstrap';
-import { updateIssue } from 'redux-utils/issue/issueSlice';
-import { useAppDispatch } from 'store';
 import { ISSUE_STATUS } from 'utils/constants';
 
 interface IssueStatusProps {
-  issue: Issue;
+  issue: IssueWithIcon;
+  handleChangeIssue: (issue: IssueWithIcon) => void;
 }
 
-const IssueStatus = ({ issue }: IssueStatusProps) => {
-  const dispatch = useAppDispatch();
-  const initStatus = issue.status as IssueStatusType;
-  const [currentStatus, setCurrentStatus] = useState<IssueStatusType>(initStatus);
+const IssueStatus = ({ issue, handleChangeIssue }: IssueStatusProps) => {
+  const status = issue.status as IssueStatusType;
 
   const handleChangeStatus = (status: IssueStatusWithTitle) => {
     const newStatus = status.value as IssueStatusType;
-    setCurrentStatus(newStatus);
-    if (issue.status !== status.value) {
-      dispatch(updateIssue({ id: issue.id, status: newStatus, prevStatus: issue.status }));
-    }
+    handleChangeIssue({ ...issue, status: newStatus });
+    // setCurrentStatus(newStatus);
   };
 
   return (
@@ -27,13 +22,11 @@ const IssueStatus = ({ issue }: IssueStatusProps) => {
       <div className="text-textMedium text-sm uppercase font-bold mt-6 mb-1">Status</div>
       <Dropdown>
         <Dropdown.Toggle className="hover:bg-backgroundMedium bg-[#f4f5f7] focus:bg-backgroundMedium">
-          <span className="uppercase text-13 text-textMedium">
-            {IssueStatusDisplay[currentStatus]}
-          </span>
+          <span className="uppercase text-13 text-textMedium">{IssueStatusDisplay[status]}</span>
         </Dropdown.Toggle>
         <Dropdown.Menu>
           {ISSUE_STATUS.map((issueStatus) => {
-            if (issueStatus.value !== currentStatus) {
+            if (issueStatus.value !== status) {
               return (
                 <Dropdown.Item
                   href="#/action-2"

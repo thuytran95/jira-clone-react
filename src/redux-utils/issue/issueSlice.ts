@@ -155,7 +155,7 @@ const issueSlice = createSlice({
         const prevStatus = (issue.prevStatus[0].toLowerCase() +
           issue.prevStatus.slice(1) +
           'Issues') as IssueListType;
-        const newStatus = (issue.status[0].toString.toLowerCase() +
+        const newStatus = (issue.status[0].toLowerCase() +
           issue.status.slice(1) +
           'Issues') as IssueListType;
 
@@ -164,7 +164,7 @@ const issueSlice = createSlice({
         state[newStatus] = [...state[newStatus], { ...currentIssue, status: issue.status }];
         return state;
       }
-
+console.log(state);
       switch (issue.status) {
         case IssueStatusType.BACKLOG: {
           state.backlogIssues = state.backlogIssues.map((item) => {

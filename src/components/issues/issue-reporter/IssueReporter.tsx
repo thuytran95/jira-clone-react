@@ -7,13 +7,13 @@ import { useAppDispatch, useAppSelector } from 'store';
 
 interface IssueReporterProps {
   issue: IssueWithIcon;
+  handleChangeIssue: (issue: IssueWithIcon) => void;
 }
 
-const IssueReporter = ({ issue }: IssueReporterProps) => {
+const IssueReporter = ({ issue, handleChangeIssue }: IssueReporterProps) => {
   const { project } = useAppSelector((state) => state.project);
   const { users } = project;
   const [reporter, setReporter] = useState<User | null>(null);
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const currentReporter = users?.find((user) => user.id === issue.reporterId) || null;
@@ -22,11 +22,7 @@ const IssueReporter = ({ issue }: IssueReporterProps) => {
 
   const handleChangeReporter = (user: User) => {
     setReporter(user);
-    if (issue.reporterId !== user.id) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { typeIcon, ...remainIssue } = issue;
-      dispatch(updateIssue({ ...remainIssue, reporterId: user.id }));
-    }
+    handleChangeIssue({ ...issue, reporterId: user.id });
   };
 
   return (

@@ -1,3 +1,5 @@
+import { IssueStatusType } from 'interface/issue';
+import { IssueWithIcon } from 'pages/kanban/Kanban';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import ReactQuill from 'react-quill';
@@ -43,6 +45,7 @@ const IssueModal = (props: ModalProps, ref: React.Ref<ModalHandle>) => {
   const quillRef = useRef<ReactQuill | null>(null);
   const descriptionRef = useRef<string>('');
   const { showModal, issueEdit } = useAppSelector((state) => state.issue);
+  const [currentIssue, setCurrentIssue] = useState<IssueWithIcon | null>();
   // useImperativeHandle(ref, () => ({
   //   handleShow: () => setShow(!show)
   // }));
@@ -73,9 +76,15 @@ const IssueModal = (props: ModalProps, ref: React.Ref<ModalHandle>) => {
     dispatch(editIssue(null));
   };
 
+  const handleChangeIssue = (issue: IssueWithIcon) => {
+    setCurrentIssue(issue);
+    console.log(issue.userIds)
+  };
+
   useEffect(() => {
     if (issueEdit) {
       setDescription(issueEdit.description || '');
+      setCurrentIssue(issueEdit);
     }
   }, [issueEdit]);
 
@@ -87,18 +96,18 @@ const IssueModal = (props: ModalProps, ref: React.Ref<ModalHandle>) => {
       dialogClassName="modal-90w"
       onHide={onHideModal}
     >
-      {issueEdit && (
+      {currentIssue && (
         <>
           <Modal.Header className="issue__modal__header p-[24px]">
             <div className="flex items-center">
               <span
                 className="issue__icon story-icon"
-                style={{ backgroundColor: issueEdit?.typeIcon?.color }}
+                style={{ backgroundColor: currentIssue?.typeIcon?.color }}
               >
-                <i className={issueEdit?.typeIcon?.icon}></i>
+                <i className={currentIssue?.typeIcon?.icon}></i>
               </span>
               <span className="uppercase font-semibold text-textMedium text-sm">
-                {issueEdit?.typeIcon.value}
+                {currentIssue?.typeIcon.value}
               </span>
             </div>
             <div className="issue__modal__action ml-auto">
@@ -117,7 +126,7 @@ const IssueModal = (props: ModalProps, ref: React.Ref<ModalHandle>) => {
             <div className="flex w-full flex-wrap pb-16">
               <div className="md:full lg:w-4/6 pr-10">
                 <h3 className="text-2xl font-semibold h-[42px] leading-tight">
-                  {issueEdit?.title}
+                  {currentIssue?.title}
                 </h3>
                 <div className="pt-4 pb-2 text-15 font-medium">Description</div>
                 {isEdit ? (
@@ -164,15 +173,15 @@ const IssueModal = (props: ModalProps, ref: React.Ref<ModalHandle>) => {
                   </div>
                 )}
 
-                <IssueComment issue={issueEdit} />
+                <IssueComment issue={currentIssue} />
               </div>
               <div className="md-full lg:w-2/6">
-                <IssueStatus issue={issueEdit} />
-                <IssueReporter issue={issueEdit} />
+                <IssueStatus issue={currentIssue} handleChangeIssue={handleChangeIssue} />
+                <IssueReporter issue={currentIssue} handleChangeIssue={handleChangeIssue} />
                 <div className="status">
-                  <IssueAssignee issue={issueEdit} />
+                  <IssueAssignee issue={currentIssue} handleChangeIssue={handleChangeIssue}/>
                 </div>
-                <IssuePriority issue={issueEdit} />
+                <IssuePriority issue={currentIssue} handleChangeIssue={handleChangeIssue}/>
               </div>
             </div>
           </Modal.Body>

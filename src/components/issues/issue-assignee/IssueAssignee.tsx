@@ -6,6 +6,7 @@ import { useAppSelector } from 'store';
 
 interface IssueAssigneeProps {
   issue: IssueWithIcon;
+  handleChangeIssue: (issue: IssueWithIcon) => void;
 }
 
 interface FilterUsers {
@@ -13,7 +14,7 @@ interface FilterUsers {
   others: User[];
 }
 
-const IssueAssignee = ({ issue }: IssueAssigneeProps) => {
+const IssueAssignee = ({ issue, handleChangeIssue }: IssueAssigneeProps) => {
   const [members, setMembers] = useState<User[]>([]);
   const [others, setOthers] = useState<User[]>([]);
   const { project } = useAppSelector((state) => state.project);
@@ -21,8 +22,11 @@ const IssueAssignee = ({ issue }: IssueAssigneeProps) => {
   useEffect(() => {
     const filterUsers = project.users.reduce(
       (acc: FilterUsers, user) => {
-        if (issue.userIds.includes(user.id)) acc.members.push(user);
-        acc.others.push(user);
+        if (issue.userIds.includes(user.id)) {
+          acc.members.push(user);
+        } else {
+          acc.others.push(user);
+        }
         return acc;
       },
       { members: [], others: [] }
@@ -34,9 +38,8 @@ const IssueAssignee = ({ issue }: IssueAssigneeProps) => {
 
   const addAssignee = (user: User) => {
     const newMembers = [...members, user] as User[];
-    const newOthers = others.filter((member) => member.id !== user.id) as User[];
-    setMembers(newMembers);
-    setOthers(newOthers);
+    const userIds = newMembers.map((user) => user.id);
+    handleChangeIssue({ ...issue, userIds });
   };
 
   return (

@@ -8,15 +8,17 @@ import './issue-priority.scss';
 
 interface IssueAssigneeProps {
   issue: IssueWithIcon;
+  handleChangeIssue: (issue: IssueWithIcon) => void;
 }
 
-const IssuePriorities = ({ issue }: IssueAssigneeProps) => {
+const IssuePriorities = ({ issue, handleChangeIssue }: IssueAssigneeProps) => {
   const [currentPriority, setCurrentPriority] = useState<IssuePriorityIcon>(
     new IssuePriorityIcon(issue.priority as IssuePriority)
   );
 
   const handleChangePriority = (priority: IssuePriorityIcon) => {
     setCurrentPriority(priority);
+    handleChangeIssue({ ...issue, priority: priority.value });
   };
 
   return (
