@@ -126,8 +126,9 @@ const IssueCard = ({ issue, index, moveIssueCard, status, handleShowIssue }: Iss
           {members.slice(0, 3).map((member) => (
             <div
               key={issue.id + member.id}
-              className="issue__avatar issue__avatar--w24"
+              className="issue__avatar issue__avatar--w24 flex-shrink-0"
               style={{ backgroundImage: `url(${member.avatarUrl})` }}
+              title={member.name}
             ></div>
           ))}
           <span className="issue__category uppercase ml-3 text-sm flex items-center justify-center">{`${issue.type} - ${issue.id}`}</span>

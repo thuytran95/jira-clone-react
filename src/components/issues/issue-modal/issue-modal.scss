@@ -31,6 +31,18 @@
     box-shadow: unset;
   }
 
+  .wrapper-editor {
+    button {
+      display: none;
+    }
+
+    &:hover {
+      button {
+        display: inline-block;
+      }
+    }
+  }
+
   .quill {
     &.disable {
       .ql-toolbar.ql-snow {

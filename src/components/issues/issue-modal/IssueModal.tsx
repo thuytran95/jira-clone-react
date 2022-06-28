@@ -1,4 +1,3 @@
-import { IssueStatusType } from 'interface/issue';
 import { IssueWithIcon } from 'pages/kanban/Kanban';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
@@ -60,11 +59,10 @@ const IssueModal = (props: ModalProps, ref: React.Ref<ModalHandle>) => {
   };
 
   const onSave = () => {
-    if (issueEdit) {
-      const { id } = issueEdit;
-      dispatch(updateIssue({ id, description: descriptionRef.current }));
+    if (currentIssue) {
       setIsEdit(false);
       setDescription(descriptionRef.current);
+      setCurrentIssue({ ...currentIssue, description: descriptionRef.current });
     }
   };
 
@@ -73,12 +71,21 @@ const IssueModal = (props: ModalProps, ref: React.Ref<ModalHandle>) => {
   };
 
   const onHideModal = () => {
-    dispatch(editIssue(null));
+    if (issueEdit && currentIssue) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { typeIcon, ...remainIssue } = currentIssue;
+      const newIssue = {
+        ...remainIssue,
+        ...(issueEdit.status !== currentIssue.status && { prevStatus: issueEdit.status })
+      };
+
+      dispatch(updateIssue(newIssue));
+      dispatch(editIssue(null));
+    }
   };
 
   const handleChangeIssue = (issue: IssueWithIcon) => {
     setCurrentIssue(issue);
-    console.log(issue.userIds)
   };
 
   useEffect(() => {
@@ -117,7 +124,7 @@ const IssueModal = (props: ModalProps, ref: React.Ref<ModalHandle>) => {
               <button className="issue__modal__btn">
                 <i className="fa fa-expand-arrows-alt"></i>
               </button>
-              <button className="issue__modal__btn">
+              <button className="issue__modal__btn" onClick={onHideModal}>
                 <i className="fa fa-times"></i>
               </button>
             </div>
@@ -154,7 +161,7 @@ const IssueModal = (props: ModalProps, ref: React.Ref<ModalHandle>) => {
                     </div>
                   </>
                 ) : (
-                  <div className="relative hover:bg-backgroundLight py-1">
+                  <div className="wrapper-editor relative hover:bg-backgroundLight py-1">
                     <button
                       className="ml-auto mb-1 text-xs absolute right-0 mr-1 cursor-pointer z-10"
                       onClick={handleEdit}
@@ -179,12 +186,29 @@ const IssueModal = (props: ModalProps, ref: React.Ref<ModalHandle>) => {
                 <IssueStatus issue={currentIssue} handleChangeIssue={handleChangeIssue} />
                 <IssueReporter issue={currentIssue} handleChangeIssue={handleChangeIssue} />
                 <div className="status">
-                  <IssueAssignee issue={currentIssue} handleChangeIssue={handleChangeIssue}/>
+                  <IssueAssignee issue={currentIssue} handleChangeIssue={handleChangeIssue} />
                 </div>
-                <IssuePriority issue={currentIssue} handleChangeIssue={handleChangeIssue}/>
+                <IssuePriority issue={currentIssue} handleChangeIssue={handleChangeIssue} />
               </div>
             </div>
           </Modal.Body>
+
+          <Modal show={true} className='modal-delete'>
+            <Modal.Body>
+              <h3>Are you sure you want to delete this issue?</h3>
+              <p>This action cannot be undone</p>
+              <div className="mt-3">
+                <button
+                  className="btn bg-textLink text-white px-3 py-2 font-medium hover:bg-[#0067ff]"
+                  type="submit"
+                  // onClick={onSave}
+                >
+                  Save
+                </button>
+                <button className="btn text-textDark px-3 py-2 ml-2">Cancel</button>
+              </div>
+            </Modal.Body>
+          </Modal>
         </>
       )}
     </Modal>

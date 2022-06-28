@@ -22,6 +22,10 @@
       min-width: 150px;
       z-index: 20;
     }
+
+    &:not(:first-of-type){
+      margin-left: -10px;
+    }
   }
 
   &__avatar--w24 {
