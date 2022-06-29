@@ -3,7 +3,8 @@ import { ModalHandle } from 'components/issues/issue-modal/IssueModal';
 import KanbanBoad from 'components/kanban-board/KanbanBoad';
 import { Issue, IssueStatusType, IssueType } from 'interface/issue';
 import { IssueTypeIcon } from 'interface/issue-type-icon';
-import { useEffect, useRef } from 'react';
+import { User } from 'interface/user';
+import { useEffect, useRef, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { editIssue, getIssues } from 'redux-utils/issue/issueSlice';
@@ -17,6 +18,10 @@ export interface IssueWithIcon extends Issue {
 
 const Kanban = () => {
   const { project } = useAppSelector((state) => state.project);
+  const { user } = useAppSelector((state) => state.auth);
+  const [userFilter, setUserFilter] = useState<string>('');
+  const [multipleFilter, setMutipleFileter] = useState<string[]>([]);
+
   const { doneIssues, selectedIssues, inProgressIssues, backlogIssues } = useAppSelector(
     (state) => state.issue
   );
@@ -27,7 +32,22 @@ const Kanban = () => {
     const type = issue.type as IssueType;
     const typeIcon = IssueUtils.getIssueTypeIcon(type);
     const newIssue = { ...issue, typeIcon };
-    dispatch(editIssue(newIssue));
+    dispatch(editIssue({ issue: newIssue }));
+  };
+
+  const handleFilterByCurrentUser = () => {
+    const newFilter = userFilter ? '' : user.id;
+    setUserFilter(newFilter);
+  };
+
+  const handleFilterByMultipleUsers = (user: User) => {
+    const isExist = multipleFilter.includes(user.id);
+
+    if (isExist) {
+      setMutipleFileter((prev) => prev.filter((id: string) => id !== user.id));
+    } else {
+      setMutipleFileter([...multipleFilter, user.id]);
+    }
   };
 
   useEffect(() => {
@@ -53,18 +73,27 @@ const Kanban = () => {
             {project.users.map((user) => (
               <div
                 key={user.id}
-                className="avatar base-tooltip"
+                className={`avatar base-tooltip ${
+                  multipleFilter.includes(user.id) ? 'selected' : 'none'
+                }`}
                 data-content={user.name}
                 style={{ backgroundImage: `url(${user.avatarUrl})` }}
+                onClick={() => handleFilterByMultipleUsers(user)}
               ></div>
             ))}
           </div>
 
-          <button className="kanban__btn text-textMedium p-2 hover:bg-backgroundLight rounded-sm mx-4 h-[2rem] leading-none">
+          <button
+            className="kanban__btn flex-shrink-0 text-textMedium p-2 hover:bg-backgroundLight rounded-sm mx-4 h-[2rem] leading-none"
+            onClick={handleFilterByCurrentUser}
+          >
             Only my issue
           </button>
-          <button className="kanban__btn text-textMedium p-2 hover:bg-backgroundLight h-[2rem] leading-none">
+          <button className="kanban__btn flex-shrink-0 text-textMedium p-2 hover:bg-backgroundLight h-[2rem] leading-none">
             Ignore Resolved
+          </button>
+          <button className="kanban__btn flex-shrink-0 text-textMedium p-2 hover:bg-backgroundLight h-[2rem] leading-none">
+            Clear all
           </button>
         </div>
       </div>

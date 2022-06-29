@@ -58,4 +58,19 @@
       }
     }
   }
+
+
+}
+
+.modal-delete {
+  &.modal.show {
+    background-color: rgba($color: black, $alpha: 0.35);
+    z-index: 2000;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+
 }

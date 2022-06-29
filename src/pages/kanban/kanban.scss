@@ -66,6 +66,11 @@
       z-index: 1;
       transform: translateY(-4px);
     }
+    &.selected {
+      z-index: 1;
+      transform: translateY(-4px);
+      border: 2px solid #4c9aff;
+    }
   }
 
   &__board {

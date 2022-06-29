@@ -29,7 +29,6 @@ const IssueStatus = ({ issue, handleChangeIssue }: IssueStatusProps) => {
             if (issueStatus.value !== status) {
               return (
                 <Dropdown.Item
-                  href="#/action-2"
                   onClick={() => handleChangeStatus(issueStatus)}
                   key={issueStatus.value}
                 >

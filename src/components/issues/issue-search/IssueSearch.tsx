@@ -44,7 +44,7 @@ const IssueSearch = ({ show, handleToggleModal }: IssueSearchProps) => {
     const type = issue.type as IssueType;
     const typeIcon = IssueUtils.getIssueTypeIcon(type);
     const newIssue = { ...issue, typeIcon };
-    dispatch(editIssue(newIssue));
+    dispatch(editIssue({ issue: newIssue }));
     handleToggleModal();
   };
 

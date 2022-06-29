@@ -3,7 +3,12 @@ import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import ReactQuill from 'react-quill';
 
-import { editIssue, updateIssue } from 'redux-utils/issue/issueSlice';
+import {
+  deleteIssue,
+  DeleteIssuePayload,
+  editIssue,
+  updateIssue
+} from 'redux-utils/issue/issueSlice';
 import { useAppDispatch, useAppSelector } from 'store';
 import IssueAssignee from '../issue-assignee/IssueAssignee';
 import IssueComment from '../issue-comment/IssueComment';
@@ -45,6 +50,7 @@ const IssueModal = (props: ModalProps, ref: React.Ref<ModalHandle>) => {
   const descriptionRef = useRef<string>('');
   const { showModal, issueEdit } = useAppSelector((state) => state.issue);
   const [currentIssue, setCurrentIssue] = useState<IssueWithIcon | null>();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   // useImperativeHandle(ref, () => ({
   //   handleShow: () => setShow(!show)
   // }));
@@ -80,12 +86,25 @@ const IssueModal = (props: ModalProps, ref: React.Ref<ModalHandle>) => {
       };
 
       dispatch(updateIssue(newIssue));
-      dispatch(editIssue(null));
+      dispatch(editIssue({ issue: null }));
     }
   };
 
   const handleChangeIssue = (issue: IssueWithIcon) => {
     setCurrentIssue(issue);
+  };
+
+  const toggleDeleteModal = () => {
+    setIsOpen((prevState) => !prevState);
+  };
+
+  const onDeleteIssue = () => {
+    if (issueEdit) {
+      const payload = { issue: issueEdit } as DeleteIssuePayload;
+      dispatch(deleteIssue(payload));
+    }
+    toggleDeleteModal();
+    dispatch(editIssue({ issue: null }));
   };
 
   useEffect(() => {
@@ -118,7 +137,7 @@ const IssueModal = (props: ModalProps, ref: React.Ref<ModalHandle>) => {
               </span>
             </div>
             <div className="issue__modal__action ml-auto">
-              <button className="issue__modal__btn">
+              <button className="issue__modal__btn" onClick={toggleDeleteModal}>
                 <i className="fa fa-trash"></i>
               </button>
               <button className="issue__modal__btn">
@@ -192,25 +211,26 @@ const IssueModal = (props: ModalProps, ref: React.Ref<ModalHandle>) => {
               </div>
             </div>
           </Modal.Body>
-
-          <Modal show={true} className='modal-delete'>
-            <Modal.Body>
-              <h3>Are you sure you want to delete this issue?</h3>
-              <p>This action cannot be undone</p>
-              <div className="mt-3">
-                <button
-                  className="btn bg-textLink text-white px-3 py-2 font-medium hover:bg-[#0067ff]"
-                  type="submit"
-                  // onClick={onSave}
-                >
-                  Save
-                </button>
-                <button className="btn text-textDark px-3 py-2 ml-2">Cancel</button>
-              </div>
-            </Modal.Body>
-          </Modal>
         </>
       )}
+      <Modal show={isOpen} className="modal-delete" onHide={toggleDeleteModal}>
+        <Modal.Body>
+          <h3>Are you sure you want to delete this issue?</h3>
+          <p>This action cannot be undone</p>
+          <div className="mt-3">
+            <button
+              className="btn bg-textLink text-white px-3 py-2 font-medium hover:bg-[#0067ff]"
+              type="submit"
+              onClick={onDeleteIssue}
+            >
+              Save
+            </button>
+            <button className="btn text-textDark px-3 py-2 ml-2" onClick={toggleDeleteModal}>
+              Cancel
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </Modal>
   );
 };

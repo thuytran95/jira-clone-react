@@ -11,6 +11,7 @@ export interface IssueState {
   doneIssues: Issue[];
   issueEdit: IssueWithIcon | null;
   showModal: boolean;
+  issueDelete: Issue | null;
 }
 
 export interface UpdateIssuesPayload {
@@ -31,13 +32,22 @@ export interface UpdateHoverIssuePayload {
   index: number;
 }
 
+export interface EditIssuePayload {
+  issue: IssueWithIcon | null;
+}
+
+export interface DeleteIssuePayload {
+  issue: IssueWithIcon;
+}
+
 const initialState: IssueState = {
   backlogIssues: [],
   selectedIssues: [],
   inProgressIssues: [],
   doneIssues: [],
   issueEdit: null,
-  showModal: false
+  showModal: false,
+  issueDelete: null
 };
 
 const issueSlice = createSlice({
@@ -164,7 +174,6 @@ const issueSlice = createSlice({
         state[newStatus] = [...state[newStatus], { ...currentIssue, status: issue.status }];
         return state;
       }
-console.log(state);
       switch (issue.status) {
         case IssueStatusType.BACKLOG: {
           state.backlogIssues = state.backlogIssues.map((item) => {
@@ -195,11 +204,32 @@ console.log(state);
           return state;
       }
     },
-    editIssue: (state, action) => {
-      const issue = action.payload;
+    editIssue: (state, action: PayloadAction<EditIssuePayload>) => {
+      const { issue } = action.payload;
       state.showModal = issue ? true : false;
       state.issueEdit = issue;
       return state;
+    },
+    deleteIssue: (state, action: PayloadAction<DeleteIssuePayload>) => {
+      const { issue } = action.payload;
+      switch (issue.status) {
+        case IssueStatusType.BACKLOG: {
+          state.backlogIssues = state.backlogIssues.filter((item) => item.id !== issue.id);
+          return state;
+        }
+        case IssueStatusType.SELECTED: {
+          state.selectedIssues = state.selectedIssues.filter((item) => item.id !== issue.id);
+          return state;
+        }
+        case IssueStatusType.IN_PROGRESS: {
+          state.inProgressIssues = state.inProgressIssues.filter((item) => item.id !== issue.id);
+          return state;
+        }
+        default:
+          state.doneIssues = state.doneIssues.filter((item) => item.id !== issue.id);
+          return state;
+      }
+
     }
   }
 });
@@ -210,6 +240,7 @@ export const {
   updateSingleTypeIssues,
   updateHoverIssues,
   updateIssue,
-  editIssue
+  editIssue,
+  deleteIssue
 } = issueSlice.actions;
 export default issueSlice.reducer;

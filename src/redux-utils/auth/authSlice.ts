@@ -2,7 +2,13 @@ import { User } from './../../interface/user';
 import { createSlice } from '@reduxjs/toolkit';
 import currentUser from 'assets/data/auth.json';
 
-const initialState: User = currentUser;
+interface InitialStateType {
+  user: User;
+}
+
+const initialState: InitialStateType = {
+  user: currentUser
+};
 
 const authSlice = createSlice({
   name: 'auth',
