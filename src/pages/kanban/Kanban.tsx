@@ -16,11 +16,29 @@ export interface IssueWithIcon extends Issue {
   typeIcon: IssueTypeIcon;
 }
 
+const filterIssues = (userId = '', userIds: string[] = [], issueList: Issue[] = []) => {
+  if (userId && !userIds.length) {
+    return issueList.filter((issue: Issue) => issue.userIds.includes(userId));
+  } else if (userId && userIds.length) {
+    return issueList.filter(
+      (issue: Issue) =>
+        issue.userIds.includes(userId) && issue.userIds.some((id) => userIds.includes(id))
+    );
+  } else if (userIds.length) {
+    return issueList.filter((issue: Issue) => {
+      return issue.userIds.some((id) => userIds.includes(id));
+    });
+  }
+
+  return issueList;
+};
+
 const Kanban = () => {
   const { project } = useAppSelector((state) => state.project);
   const { user } = useAppSelector((state) => state.auth);
   const [userFilter, setUserFilter] = useState<string>('');
   const [multipleFilter, setMutipleFileter] = useState<string[]>([]);
+  const [ignoreResolve, setIgnoreResolve] = useState<boolean>(false);
 
   const { doneIssues, selectedIssues, inProgressIssues, backlogIssues } = useAppSelector(
     (state) => state.issue
@@ -48,6 +66,16 @@ const Kanban = () => {
     } else {
       setMutipleFileter([...multipleFilter, user.id]);
     }
+  };
+
+  const handleIgnoreResolve = () => {
+    setIgnoreResolve((prevState) => !prevState);
+  };
+
+  const clearAllFilter = () => {
+    setMutipleFileter([]);
+    setUserFilter('');
+    setIgnoreResolve(false);
   };
 
   useEffect(() => {
@@ -84,17 +112,29 @@ const Kanban = () => {
           </div>
 
           <button
-            className="kanban__btn flex-shrink-0 text-textMedium p-2 hover:bg-backgroundLight rounded-sm mx-4 h-[2rem] leading-none"
+            className={`kanban__btn flex-shrink-0 text-textMedium p-2 hover:bg-backgroundLight rounded-sm mx-4 h-[2rem] leading-none ${
+              userFilter ? 'active' : ''
+            }`}
             onClick={handleFilterByCurrentUser}
           >
             Only my issue
           </button>
-          <button className="kanban__btn flex-shrink-0 text-textMedium p-2 hover:bg-backgroundLight h-[2rem] leading-none">
+          <button
+            className={`kanban__btn flex-shrink-0 text-textMedium p-2 hover:bg-backgroundLight h-[2rem] leading-none mr-4 ${
+              ignoreResolve ? 'active' : ''
+            }`}
+            onClick={handleIgnoreResolve}
+          >
             Ignore Resolved
           </button>
-          <button className="kanban__btn flex-shrink-0 text-textMedium p-2 hover:bg-backgroundLight h-[2rem] leading-none">
-            Clear all
-          </button>
+          {userFilter || ignoreResolve || multipleFilter.length ? (
+            <button
+              className="kanban__btn flex-shrink-0 text-textMedium p-2 hover:bg-backgroundLight h-[2rem] leading-none"
+              onClick={clearAllFilter}
+            >
+              Clear all
+            </button>
+          ) : null}
         </div>
       </div>
 
@@ -102,22 +142,22 @@ const Kanban = () => {
         <DndProvider backend={HTML5Backend}>
           <KanbanBoad
             status={IssueStatusType.BACKLOG}
-            issues={backlogIssues}
+            issues={filterIssues(userFilter, multipleFilter, backlogIssues)}
             handleShowIssue={handleShowIssue}
           />
           <KanbanBoad
             status={IssueStatusType.SELECTED}
-            issues={selectedIssues}
+            issues={filterIssues(userFilter, multipleFilter, selectedIssues)}
             handleShowIssue={handleShowIssue}
           />
           <KanbanBoad
             status={IssueStatusType.IN_PROGRESS}
-            issues={inProgressIssues}
+            issues={filterIssues(userFilter, multipleFilter, inProgressIssues)}
             handleShowIssue={handleShowIssue}
           />
           <KanbanBoad
             status={IssueStatusType.DONE}
-            issues={doneIssues}
+            issues={ignoreResolve ? [] : filterIssues(userFilter, multipleFilter, doneIssues)}
             handleShowIssue={handleShowIssue}
           />
         </DndProvider>
