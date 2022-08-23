@@ -4,7 +4,7 @@ import KanbanBoard from 'components/kanban-board/KanbanBoard';
 import { Issue, IssueStatusType, IssueType } from 'interface/issue';
 import { IssueTypeIcon } from 'interface/issue-type-icon';
 import { User } from 'interface/user';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { editIssue, getIssues } from 'redux-utils/issue/issueSlice';
@@ -33,18 +33,44 @@ const filterIssues = (userId = '', userIds: string[] = [], issueList: Issue[] = 
   return issueList;
 };
 
+const filterIssueByTitle = (searchInput: string, issues: Issue[]) => {
+  if (searchInput) {
+    return issues.filter((issue: Issue) => issue.title.toLowerCase().includes(searchInput));
+  }
+
+  return issues;
+};
+
 const Kanban = () => {
   const { project } = useAppSelector((state) => state.project);
   const { user } = useAppSelector((state) => state.auth);
   const [userFilter, setUserFilter] = useState<string>('');
   const [multipleFilter, setMultipleFilter] = useState<string[]>([]);
   const [ignoreResolve, setIgnoreResolve] = useState<boolean>(false);
+  const [, startTransition] = useTransition();
+  const [input, setInput] = useState<string>('');
 
   const { doneIssues, selectedIssues, inProgressIssues, backlogIssues } = useAppSelector(
     (state) => state.issue
   );
   const dispatch = useAppDispatch();
   const modalIssue = useRef<ModalHandle>(null);
+
+  const backlogItems = filterIssueByTitle(
+    input,
+    filterIssues(userFilter, multipleFilter, backlogIssues)
+  );
+  const selectedItems = filterIssueByTitle(
+    input,
+    filterIssues(userFilter, multipleFilter, selectedIssues)
+  );
+  const inprogressItems = filterIssueByTitle(
+    input,
+    filterIssues(userFilter, multipleFilter, inProgressIssues)
+  );
+  const doneItems = ignoreResolve
+    ? []
+    : filterIssueByTitle(input, filterIssues(userFilter, multipleFilter, doneIssues));
 
   const handleShowIssue = (issue: Issue) => {
     const type = issue.type as IssueType;
@@ -78,6 +104,12 @@ const Kanban = () => {
     setIgnoreResolve(false);
   };
 
+  const handleSearch: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    startTransition(() => {
+      setInput(e.target.value.trim().toLocaleLowerCase());
+    });
+  };
+
   useEffect(() => {
     dispatch(getIssues(project));
   }, []);
@@ -94,6 +126,8 @@ const Kanban = () => {
             <input
               className="search__input grow-default hover:bg-backgroundLight focus:bg-white"
               type="text"
+              value={input}
+              onChange={handleSearch}
             />
           </div>
 
@@ -142,22 +176,22 @@ const Kanban = () => {
         <DndProvider backend={HTML5Backend}>
           <KanbanBoard
             status={IssueStatusType.BACKLOG}
-            issues={filterIssues(userFilter, multipleFilter, backlogIssues)}
+            issues={backlogItems}
             handleShowIssue={handleShowIssue}
           />
           <KanbanBoard
             status={IssueStatusType.SELECTED}
-            issues={filterIssues(userFilter, multipleFilter, selectedIssues)}
+            issues={selectedItems}
             handleShowIssue={handleShowIssue}
           />
           <KanbanBoard
             status={IssueStatusType.IN_PROGRESS}
-            issues={filterIssues(userFilter, multipleFilter, inProgressIssues)}
+            issues={inprogressItems}
             handleShowIssue={handleShowIssue}
           />
           <KanbanBoard
             status={IssueStatusType.DONE}
-            issues={ignoreResolve ? [] : filterIssues(userFilter, multipleFilter, doneIssues)}
+            issues={doneItems}
             handleShowIssue={handleShowIssue}
           />
         </DndProvider>
