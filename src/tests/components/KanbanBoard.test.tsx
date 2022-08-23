@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import KanbanBoad from 'components/kanban-board/KanbanBoad';
+import KanbanBoard from 'components/kanban-board/KanbanBoard';
 import { Issue, IssueStatusType } from 'interface/issue';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -11,7 +11,7 @@ describe('Kanban board', () => {
     return (
       <Provider store={store}>
         <DndProvider backend={HTML5Backend}>
-          <KanbanBoad
+          <KanbanBoard
             issues={issues}
             status={IssueStatusType.BACKLOG}
             handleShowIssue={handleShowIssue}

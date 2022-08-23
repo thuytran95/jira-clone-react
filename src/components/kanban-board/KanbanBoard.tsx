@@ -13,7 +13,7 @@ export interface KanbanBoardProps {
   handleShowIssue: (issue: Issue) => void;
 }
 
-const KanbanBoad = ({ issues, status, handleShowIssue }: KanbanBoardProps) => {
+const KanbanBoard = ({ issues, status, handleShowIssue }: KanbanBoardProps) => {
   const [issueItems, setIssueItems] = useState<Issue[]>([]);
   const dispatch = useAppDispatch();
   const [, drop] = useDrop(() => ({
@@ -74,4 +74,4 @@ const KanbanBoad = ({ issues, status, handleShowIssue }: KanbanBoardProps) => {
   );
 };
 
-export default KanbanBoad;
+export default KanbanBoard;

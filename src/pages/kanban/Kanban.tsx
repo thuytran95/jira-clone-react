@@ -1,6 +1,6 @@
 import { IssueModal } from 'components/issues';
 import { ModalHandle } from 'components/issues/issue-modal/IssueModal';
-import KanbanBoad from 'components/kanban-board/KanbanBoad';
+import KanbanBoard from 'components/kanban-board/KanbanBoard';
 import { Issue, IssueStatusType, IssueType } from 'interface/issue';
 import { IssueTypeIcon } from 'interface/issue-type-icon';
 import { User } from 'interface/user';
@@ -37,7 +37,7 @@ const Kanban = () => {
   const { project } = useAppSelector((state) => state.project);
   const { user } = useAppSelector((state) => state.auth);
   const [userFilter, setUserFilter] = useState<string>('');
-  const [multipleFilter, setMutipleFileter] = useState<string[]>([]);
+  const [multipleFilter, setMultipleFilter] = useState<string[]>([]);
   const [ignoreResolve, setIgnoreResolve] = useState<boolean>(false);
 
   const { doneIssues, selectedIssues, inProgressIssues, backlogIssues } = useAppSelector(
@@ -62,9 +62,9 @@ const Kanban = () => {
     const isExist = multipleFilter.includes(user.id);
 
     if (isExist) {
-      setMutipleFileter((prev) => prev.filter((id: string) => id !== user.id));
+      setMultipleFilter((prev) => prev.filter((id: string) => id !== user.id));
     } else {
-      setMutipleFileter([...multipleFilter, user.id]);
+      setMultipleFilter([...multipleFilter, user.id]);
     }
   };
 
@@ -73,7 +73,7 @@ const Kanban = () => {
   };
 
   const clearAllFilter = () => {
-    setMutipleFileter([]);
+    setMultipleFilter([]);
     setUserFilter('');
     setIgnoreResolve(false);
   };
@@ -140,22 +140,22 @@ const Kanban = () => {
 
       <div className="kanban__board flex mt-7">
         <DndProvider backend={HTML5Backend}>
-          <KanbanBoad
+          <KanbanBoard
             status={IssueStatusType.BACKLOG}
             issues={filterIssues(userFilter, multipleFilter, backlogIssues)}
             handleShowIssue={handleShowIssue}
           />
-          <KanbanBoad
+          <KanbanBoard
             status={IssueStatusType.SELECTED}
             issues={filterIssues(userFilter, multipleFilter, selectedIssues)}
             handleShowIssue={handleShowIssue}
           />
-          <KanbanBoad
+          <KanbanBoard
             status={IssueStatusType.IN_PROGRESS}
             issues={filterIssues(userFilter, multipleFilter, inProgressIssues)}
             handleShowIssue={handleShowIssue}
           />
-          <KanbanBoad
+          <KanbanBoard
             status={IssueStatusType.DONE}
             issues={ignoreResolve ? [] : filterIssues(userFilter, multipleFilter, doneIssues)}
             handleShowIssue={handleShowIssue}
